@@ -40,11 +40,43 @@ require_once '../utility/print_helper.php';
 
    $question = "This is an house. Isn't it?";
 
-   printTagWithString($question);
+   printWithTag($question);
 
-   printTagWithString($house . ": "  . getYesOrNo(isHouse($house)));
-   printTagWithString($garden . ": " . getYesOrNo(isHouse($garden)));
-   printTagWithString($isle . ": " . getYesOrNo(isHouse($isle)));
+   printWithTag($house . ": "  . getYesOrNo(isHouse($house)));
+   printWithTag($garden . ": " . getYesOrNo(isHouse($garden)));
+   printWithTag($isle . ": " . getYesOrNo(isHouse($isle)));
+
+   /**
+    * Returns a formatted string with the result of the comparison.
+    * @param int $value The value to compare.
+    * @return string The result of the comparison.
+    */
+   function compareToBorders(int $value,  $lowerBorder = 20, $upperBorder = 30): string
+   {
+      if ($value < $lowerBorder) {
+         return "The value passed is less than $lowerBorder!";
+      } elseif ($value > $upperBorder) {
+         return "The value passed is greater than $upperBorder!";
+      } else {
+         return "The value passed is between $lowerBorder and $upperBorder or equal to one of them!";
+      }
+   }
+
+   printWithTag("Try to find numbers that are within the borders!");
+
+   $val_13 = -13;
+   $val_31 = 31;
+   $val_23 = 23;
+   $val_20 = 20;
+   $val_40 = 40;
+
+   printWithTag("I will try!");
+
+   printWithTag('' . $val_13 . ": "  . compareToBorders($val_13));
+   printWithTag('' . $val_31 . ": "  . compareToBorders($val_31));
+   printWithTag('' . $val_23 . ": "  . compareToBorders($val_23));
+   printWithTag('' . $val_20 . ": "  . compareToBorders($val_20));
+   printWithTag('' . $val_40 . ": "  . compareToBorders($val_40, $upperBorder = $val_40));
 
    ?>
 

@@ -1,6 +1,9 @@
 <?php
 
-declare(strict_types=1); ?>
+declare(strict_types=1);
+
+require_once '../utility/print_helper.php';
+?>
 <!doctype html>
 
 <html>
@@ -12,7 +15,7 @@ declare(strict_types=1); ?>
 </head>
 
 <body>
-   <h1>Workout</h1>
+   <h1>Use custom functions</h1>
 
    <?php
 
@@ -31,36 +34,18 @@ declare(strict_types=1); ?>
       return false;
    }
 
-   /**
-    * Returns 'Yes' if the value is true, 'No' otherwise.
-    */
-   function getYesOrNo(bool $value): string
-   {
-      if ($value) {
-         return 'Yes';
-      }
-
-      return 'No';
-   }
-
-
    $house = 'house';
    $garden = 'garden';
    $isle = 'isle_with_house_and_garden';
 
    $question = "This is an house. Isn't it?";
 
-   function printTagWithString(string $formattedText = '')
-	{
-		echo "<p>" . $formattedText . "</p>\n";
-	}
-
    printTagWithString($question);
 
    printTagWithString($house . ": "  . getYesOrNo(isHouse($house)));
    printTagWithString($garden . ": " . getYesOrNo(isHouse($garden)));
-   printTagWithString($isle . ": " . getYesOrNo(isHouse($house)));
-   
+   printTagWithString($isle . ": " . getYesOrNo(isHouse($isle)));
+
    ?>
 
 </body>

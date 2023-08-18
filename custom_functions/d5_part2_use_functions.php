@@ -38,14 +38,16 @@ require_once '../utility/print_helper.php';
    $garden = 'garden';
    $isle = 'isle_with_house_and_garden';
 
-   $question = "This is an house. Isn't it?";
+   printWithTag("House checker", "h2");
 
-   printWithTag($question);
+   printWithTag("This is an house. Isn't it?");
 
    printWithTag($house . ": "  . getYesOrNo(isHouse($house)));
    printWithTag($garden . ": " . getYesOrNo(isHouse($garden)));
    printWithTag($isle . ": " . getYesOrNo(isHouse($isle)));
 
+
+   printWithTag("Number checker", "h2");
    /**
     * Returns a formatted string with the result of the comparison.
     * @param int $value The value to compare.
@@ -76,7 +78,7 @@ require_once '../utility/print_helper.php';
    printWithTag('' . $val_31 . ": "  . compareToBorders($val_31));
    printWithTag('' . $val_23 . ": "  . compareToBorders($val_23));
    printWithTag('' . $val_20 . ": "  . compareToBorders($val_20));
-   printWithTag('' . $val_40 . ": "  . compareToBorders($val_40, $upperBorder = $val_40));
+   printWithTag('' . $val_40 . ": "  . compareToBorders($val_40, upperBorder: $val_40));
 
    ?>
 

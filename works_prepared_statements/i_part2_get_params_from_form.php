@@ -18,6 +18,7 @@ $mediaTypes = [
 
 // Variables
 $year = null;
+$formName = 'worksForm';
 
 
 // Step 1 FORM: Check whether form has been submitted.
@@ -25,6 +26,13 @@ $year = null;
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$_POST <i>(" . basename(__FILE__) . ")</i>:<br>\n";
 if (DEBUG_V)   print_r($_POST);
 if (DEBUG_V)   echo "</pre>";
+
+if (isset($_POST[$formName]) === true) {
+   if (DEBUG)      echo "<p class='debug'>🧻 <b>Line " . __LINE__ . "</b>: Formular '$formName' wurde abgeschickt. <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+
+   // End form check
+}
 ?>
 <!doctype html>
 

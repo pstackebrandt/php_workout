@@ -8,6 +8,14 @@ require_once('./include/config.inc.php');
 require_once('./include/db.inc.php');
 require_once('./include/form.inc.php');
 
+// Resources
+$mediaTypes = [
+   'hardcover' => 'Hardcover',
+   'paperback' => 'Paperback',
+   'folio' => 'Foliant',
+   'audiobook' => 'Hörbuch'
+];
+
 ?>
 <!doctype html>
 
@@ -32,26 +40,44 @@ require_once('./include/form.inc.php');
 
    <h2>Werke-Erfassung</h>
 
-   <br>
-
-   <form action="" method="POST">
-      <input type="hidden" name="worksForm">
       <br>
 
-      <label>Autor</label><br>
-      <input type="text" name="author" value="Peter"><br>
-      <br>
+      <form action="" method="POST">
+         <input type="hidden" name="worksForm">
+         <br>
 
-      <label>Titel</label><br>
-      <input type="text" name="title" value="Wilde Geschichten"><br>
-      <br>
+         <label>Autor</label><br>
+         <input type="text" name="author" value="Peter"><br>
+         <br>
 
-      <label>Preis</label><br>
-      <input type="text" name="price" value="29.95"><br>
-      <br>
+         <label>Titel</label><br>
+         <input type="text" name="title" value="Wilde Geschichten"><br>
+         <br>
 
-      <input type="submit" value="Werk speichern">
-   </form>
+         <label>Preis</label><br>
+         <input type="text" name="price" value="29.95"><br>
+         <br>
+
+         <br>
+         <br>
+         <!-- -------- MEDIATYPE START -------- -->
+         <fieldset>
+            <legend>Medientyp</legend>
+
+            <?php foreach ($mediaTypes as $value => $label) : ?>
+               <label>
+                  <input type="radio" name="mediaType" value="<?= $value; ?>"><?= $label; ?>
+               </label>
+            <?php endforeach; ?>
+
+         </fieldset>
+         <!-- -------- MEDIATYPE END -------- -->
+
+
+         <input type="submit" value="Werk speichern">
+
+
+      </form>
 </body>
 
 </html>

@@ -19,6 +19,12 @@ $mediaTypes = [
 // Variables
 $year = null;
 
+
+// Step 1 FORM: Check whether form has been submitted.
+// *****************************************************************************
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$_POST <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V)   print_r($_POST);
+if (DEBUG_V)   echo "</pre>";
 ?>
 <!doctype html>
 

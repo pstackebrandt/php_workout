@@ -45,12 +45,12 @@
 				#********** DEBUGGING **********#
 				define('DEBUG', 				true);				// Debugging for main document
 				// define('DEBUG', 				false);				// Debugging for main document
-				// define('DEBUG_V', 			true);				// Debugging for values
-				define('DEBUG_V', 			false);				// Debugging for values
-				// define('DEBUG_F', 			true);				// Debugging for functions
-				define('DEBUG_F', 			false);				// Debugging for functions
-				// define('DEBUG_DB', 			true);				// Debugging for DB operations
-				define('DEBUG_DB', 			false);				// Debugging for DB operations
+				define('DEBUG_V', 			true);				// Debugging for values
+				// define('DEBUG_V', 			false);				// Debugging for values
+				define('DEBUG_F', 			true);				// Debugging for functions
+				// define('DEBUG_F', 			false);				// Debugging for functions
+				define('DEBUG_DB', 			true);				// Debugging for DB operations
+				// define('DEBUG_DB', 			false);				// Debugging for DB operations
 
 
 #****************************************************************************************************#

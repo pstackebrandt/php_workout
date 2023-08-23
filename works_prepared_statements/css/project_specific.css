@@ -1,7 +1,11 @@
 fieldset {
    margin: 5px;
-   width: 200px;
+   width: 300px;
    border-radius: 5px;
    padding: 10px 20px;
    background-color: whitesmoke;
+}
+
+.radio-button-mediatype {
+   width: 20px;
 }

@@ -59,7 +59,6 @@ $year = null;
             <input type="text" name="title" value="Wilde Geschichten"><br>
          </fieldset>
 
-
          <fieldset>
             <legend>Preis</legend>
             <input type="text" name="price" value="29.95"><br>
@@ -68,19 +67,16 @@ $year = null;
          <!-- -------- MEDIATYPE -------- -->
          <fieldset>
             <legend>Medientyp</legend>
-
             <?php foreach ($mediaTypes as $value => $label) : ?>
-               <label>
-                  <input type="radio" name="mediaType" value="<?= $value; ?>"><?= $label; ?>
-               </label>
+               <label class="radio-inline">
+                  <input type="radio" class="radio-button-mediatype" name="mediaType" value="<?= $value; ?>">
+               </label><?= $label; ?><br>
             <?php endforeach; ?>
-
          </fieldset>
 
          <!-- ------------- YEAR -------------- -->
-         <br>
          <fieldset>
-            <legend>Medientyp</legend>
+            <legend>Erscheinungjahr</legend>
 
             <select id="year" name="year">
                <?php for ($i = date('Y'); $i >= 1901; $i--) : ?>

@@ -1,0 +1,7 @@
+fieldset {
+   margin: 5px;
+   width: 200px;
+   border-radius: 5px;
+   padding: 10px 20px;
+   background-color: whitesmoke;
+}

@@ -16,6 +16,9 @@ $mediaTypes = [
    'audiobook' => 'Hörbuch'
 ];
 
+// Variables
+$year = null;
+
 ?>
 <!doctype html>
 
@@ -46,21 +49,23 @@ $mediaTypes = [
          <input type="hidden" name="worksForm">
          <br>
 
-         <label>Autor</label><br>
-         <input type="text" name="author" value="Peter"><br>
-         <br>
+         <fieldset>
+            <legend>Autor</legend>
+            <input type="text" name="author" value="Peter"><br>
+         </fieldset>
 
-         <label>Titel</label><br>
-         <input type="text" name="title" value="Wilde Geschichten"><br>
-         <br>
+         <fieldset>
+            <legend>Titel</legend>
+            <input type="text" name="title" value="Wilde Geschichten"><br>
+         </fieldset>
 
-         <label>Preis</label><br>
-         <input type="text" name="price" value="29.95"><br>
-         <br>
 
-         <br>
-         <br>
-         <!-- -------- MEDIATYPE START -------- -->
+         <fieldset>
+            <legend>Preis</legend>
+            <input type="text" name="price" value="29.95"><br>
+         </fieldset>
+
+         <!-- -------- MEDIATYPE -------- -->
          <fieldset>
             <legend>Medientyp</legend>
 
@@ -71,11 +76,24 @@ $mediaTypes = [
             <?php endforeach; ?>
 
          </fieldset>
-         <!-- -------- MEDIATYPE END -------- -->
 
+         <!-- ------------- YEAR -------------- -->
+         <br>
+         <fieldset>
+            <legend>Medientyp</legend>
 
+            <select id="year" name="year">
+               <?php for ($i = date('Y'); $i >= 1901; $i--) : ?>
+                  <?php
+                  /* Reselect year if form was submitted and year is equal to $i	*/
+                  ?>
+                  <option value="<?= $i ?>" <?php if ($year == $i) echo 'selected' ?>><?= $i ?></option>
+               <?php endfor ?>
+            </select>
+         </fieldset>
+
+         <br>
          <input type="submit" value="Werk speichern">
-
 
       </form>
 </body>

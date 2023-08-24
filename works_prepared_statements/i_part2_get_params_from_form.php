@@ -26,6 +26,14 @@ $price = null;
 $year = null;
 $mediaType = null;
 
+if (DEBUG && 0) {
+   // Set default form content for debugging
+   $author = 'Pedro';
+   $title = 'Wilde Geschichten';
+   $price = 29.95;
+}
+
+
 $firstMediaType = array_key_first($mediaTypes);
 
 if (is_null($mediaType)) {
@@ -53,6 +61,8 @@ if (isset($_POST[$formName]) === true) {
    $price        = sanitizeString($_POST['price']);
    $mediaType    = sanitizeString($_POST['mediaType']);
    $year  = sanitizeString($_POST['year']);
+
+
 
    /*
    DEBUG manually:
@@ -105,17 +115,17 @@ if (isset($_POST[$formName]) === true) {
 
          <fieldset>
             <legend>Autor</legend>
-            <input type="text" name="author" value="Peter"><br>
+            <input type="text" name="author" value="<?= $author ?>" placeholder="Name"><br>
          </fieldset>
 
          <fieldset>
             <legend>Titel</legend>
-            <input type="text" name="title" value="Wilde Geschichten"><br>
+            <input type="text" name="title" value="<?= $title ?>" placeholder="Werktitel"><br>
          </fieldset>
 
          <fieldset>
             <legend>Preis</legend>
-            <input type="text" name="price" value="29.95"><br>
+            <input type="text" name="price" value="<?= $price ?>" placeholder="0.00"><br>
          </fieldset>
 
          <!-- -------- MEDIATYPE -------- -->

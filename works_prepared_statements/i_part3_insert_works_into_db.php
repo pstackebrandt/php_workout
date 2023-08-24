@@ -58,11 +58,31 @@ if (isset($_POST[$formName]) === true) {
    // Step 2 FORM: Read, sanitize, debug output of passed form values.
    if (DEBUG) echo "<p class='debug'>📑 <b>Line " . __LINE__ . "</b>: Values will be read and sanitized ... <i>(" . basename(__FILE__) . ")</i></p>\n";
 
-   $author       = sanitizeString($_POST['author']);
-   $title        = sanitizeString($_POST['title']);
-   $price        = sanitizeString($_POST['price']);
-   $mediaType    = sanitizeString($_POST['mediaType']);
-   $year  = sanitizeString($_POST['year']);
+   $receivedAuthor    = sanitizeString($_POST['author']);
+   $receivedTitle     = sanitizeString($_POST['title']);
+   $receivedPrice     = sanitizeString($_POST['price']);
+   $receivedMediaType = sanitizeString($_POST['mediaType']);
+   $receivedYear      = sanitizeString($_POST['year']);
+
+   /**
+    * Returns the form value if it's not null and not an empty string. 
+    * Otherwise, it returns the default value.
+    *
+    * @param mixed $formValue The value received from the form.
+    * @param mixed $defaultValue The default value to fall back on.
+    * @return mixed
+    */
+   function getValueOrDefault($formValue, $defaultValue)
+   {
+      return (!is_null($formValue) && $formValue !== "") ? $formValue : $defaultValue;
+   }
+
+   // Nur wenn die empfangenen Daten nicht null und nicht leer sind, überschreiben Sie die Standardwerte
+   $author    = getValueOrDefault($receivedAuthor, $author);
+   $title     = getValueOrDefault($receivedTitle, $title);
+   $price     = getValueOrDefault($receivedPrice, $price);
+   $mediaType = getValueOrDefault($receivedMediaType, $mediaType);
+   $year      = getValueOrDefault($receivedYear, $year);
 
    /*
    DEBUG manually:

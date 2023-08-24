@@ -23,13 +23,17 @@ $formName = 'worksForm';
 $author = null;
 $title = null;
 $price = null;
-$releaseYear = null;
+$year = null;
 $mediaType = null;
 
 $firstMediaType = array_key_first($mediaTypes);
 
 if (is_null($mediaType)) {
    $mediaType = $firstMediaType;
+}
+
+if (is_null($year)) {
+   $year = Date('Y');
 }
 
 // Step 1 FORM: Check whether form has been submitted.
@@ -48,7 +52,7 @@ if (isset($_POST[$formName]) === true) {
    $title        = sanitizeString($_POST['title']);
    $price        = sanitizeString($_POST['price']);
    $mediaType    = sanitizeString($_POST['mediaType']);
-   $releaseYear  = sanitizeString($_POST['year']);
+   $year  = sanitizeString($_POST['year']);
 
    /*
    DEBUG manually:
@@ -63,7 +67,7 @@ if (isset($_POST[$formName]) === true) {
 
    if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$mediaType: $mediaType <i>(" . basename(__FILE__) . ")</i></p>\n";
 
-   if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$releaseYear: $releaseYear <i>(" . basename(__FILE__) . ")</i></p>\n";
+   if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$releaseYear: $year <i>(" . basename(__FILE__) . ")</i></p>\n";
 
 
 

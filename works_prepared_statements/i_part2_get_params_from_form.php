@@ -25,6 +25,7 @@ $title = null;
 $price = null;
 $releaseYear = null;
 $mediaType = null;
+
 $firstMediaType = array_key_first($mediaTypes);
 
 if (is_null($mediaType)) {
@@ -118,8 +119,9 @@ if (isset($_POST[$formName]) === true) {
             <legend>Medientyp</legend>
             <?php foreach ($mediaTypes as $value => $label) : ?>
                <label class="radio-inline">
-                  <input type="radio" class="radio-button-mediatype" name="mediaType" value="<?= $value; ?>">
-               </label><?= $label; ?><br>
+                  <input type="radio" class="radio-button-mediatype" name="mediaType" value="<?= $value; ?>" <?= $mediaType == $value ? 'checked' : '' ?>>
+                  <?= $label; ?>
+               </label><br>
             <?php endforeach; ?>
          </fieldset>
 

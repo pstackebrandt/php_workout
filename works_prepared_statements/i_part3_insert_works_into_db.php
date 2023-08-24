@@ -19,6 +19,7 @@ $mediaTypes = [
 // Variables
 $formName = 'worksForm';
 $fileName = basename(__FILE__);
+$dbName = 'buechersammlung';
 
 // Form parmeters
 $author = null;
@@ -27,8 +28,8 @@ $price = null;
 $year = null;
 $mediaType = null;
 
-if (DEBUG) {
-   // if (DEBUG && 0) {
+// if (DEBUG) {
+if (DEBUG && 0) {
    // Set default form content for debugging
    $author = 'Pedro';
    $title = 'Wilde Geschichten';
@@ -126,6 +127,68 @@ if (isset($_POST[$formName]) === true) {
          "für $price €<br>" .
          "von $year <br>";
       echo "<h3>$successMessage</h3>";
+
+      #                   ********** INSERT **********#
+      if (DEBUG)         echo "<p class='debug'>📑 <b>Line " . __LINE__ . "</b>: INSERT wird durchgeführt... <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+      #                    **********************************#
+      #                    ********** DB OPERATION **********#
+      #                    **********************************#
+
+      //           Schritt 1 DB: Establish connection to the database
+      $PDO = dbConnect($dbName);
+
+      //             Create SQL statement and placeholder array. (Step 2)
+
+      $sql = "INSERT INTO werke (werkeAuthor, werkeTitle, werkeReleaseYear, werkeMediaType, werkePrice) VALUES (:author, :title, :year, :mediaType, :price)";
+
+      $placeholders = [
+         'author' => $author,
+         'title' => $title,
+         'year' => $year,
+         'mediaType' => $mediaType,
+         'price' => $price
+      ];
+
+      try {
+         // Prepare: SQL-Statement vorbereiten
+         $PDOStatement = $PDO->prepare($sql);
+
+         // Execute: SQL-Statement ausführen und ggf. Platzhalter füllen
+         $PDOStatement->execute($placeholders);
+      } catch (PDOException $error) {
+         if (DEBUG) echo "<p class='debug db err'><b>Line " . __LINE__ . "</b>: FEHLER: " . $error->GetMessage() . "<i>(" . basename(__FILE__) . ")</i></p>\n";
+         $dbError = 'Fehler beim Zugriff auf die Datenbank!';
+      }
+
+      // ************** Further processing of the data
+      $rowCount = $PDOStatement->rowCount();
+      if (DEBUG_V)         echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$rowCount: $rowCount <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+      if ($rowCount === 0) {
+         // Fehlerfall
+         if (DEBUG) echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: FEHLER beim Speichern des Datensatzes! <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+         $dbError = 'Beim Speichern des neuen Werks ist ein Fehler aufgetreten!';
+      } else {
+         // Erfolgsfall
+         $newProductID = $PDO->lastInsertId();
+
+         if (DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Datensatz erfolgreich unter ID$newProductID gespeichert. <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+         $dbSuccess = 'Das neue Produkt wurde erfolgreich gespeichert.';
+      }
+
+      // *****************    Close db connection  *****************
+      if (DEBUG_DB) echo "<p class='debug db'><b>Line " . __LINE__ . "</b>: Closes db connection<i>(" . basename(__FILE__) . ")</i></p>\n";
+      unset($PDO);
+
+      // Reset form values
+      $author = null;
+      $title = null;
+      $price = null;
+      $year = null;
+      $mediaType = null;
    }
    // End form check
 }

@@ -17,9 +17,19 @@ $mediaTypes = [
 ];
 
 // Variables
-$year = null;
 $formName = 'worksForm';
 
+// Form parmeters
+$author = null;
+$title = null;
+$price = null;
+$releaseYear = null;
+$mediaType = null;
+$firstMediaType = array_key_first($mediaTypes);
+
+if (is_null($mediaType)) {
+   $mediaType = $firstMediaType;
+}
 
 // Step 1 FORM: Check whether form has been submitted.
 // *****************************************************************************
@@ -29,6 +39,31 @@ if (DEBUG_V)   echo "</pre>";
 
 if (isset($_POST[$formName]) === true) {
    if (DEBUG)      echo "<p class='debug'>🧻 <b>Line " . __LINE__ . "</b>: Formular '$formName' wurde abgeschickt. <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+   // Step 2 FORM: Read, sanitize, debug output of passed form values.
+   if (DEBUG) echo "<p class='debug'>📑 <b>Line " . __LINE__ . "</b>: Values will be read and sanitized ... <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+   $author       = sanitizeString($_POST['author']);
+   $title        = sanitizeString($_POST['title']);
+   $price        = sanitizeString($_POST['price']);
+   $mediaType    = sanitizeString($_POST['mediaType']);
+   $releaseYear  = sanitizeString($_POST['year']);
+
+   /*
+   DEBUG manually:
+      1. Is the variable name written correctly?
+      2. Does each variable contain the correct value?
+   */
+   if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$author: $author <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+   if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$title: $title <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+   if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$price: $price <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+   if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$mediaType: $mediaType <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+   if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$releaseYear: $releaseYear <i>(" . basename(__FILE__) . ")</i></p>\n";
+
 
 
    // End form check

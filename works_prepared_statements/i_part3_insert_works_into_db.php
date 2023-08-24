@@ -99,8 +99,34 @@ if (isset($_POST[$formName]) === true) {
 
    if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$releaseYear: $year <i>(" . basename(__FILE__) . ")</i></p>\n";
 
+   $errorAuthor     = validateInputString($author, mandatory: true);
+   $errorTitle      = validateInputString($title, mandatory: true);
+   $errorPrice      = validateInputString($price, mandatory: true);
+   $errorMediaType  = validateInputString($mediaType, maxLength: 9, minLength: 5, mandatory: true);
+   $errorYear       = validateInputString($year, maxLength: 4, minLength: 4);
 
+   if (
+      $errorAuthor     !== NULL or
+      $errorTitle      !== NULL or
+      $errorPrice      !== NULL or
+      $errorMediaType  !== NULL or
+      $errorYear       !== NULL
+   ) {
+      // Fehlerfall
+      if (DEBUG) echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: Das Formular enthält noch Fehler! <i>(" . basename(__FILE__) . ")</i></p>\n";
+   } else {
+      // Erfolgsfall
+      if (DEBUG)         echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Das Formular ist formal fehlerfrei. <i>(" . basename(__FILE__) . ")</i></p>\n";
 
+      // Schritt 4 FORM: Daten weiterverarbeiten
+      if (DEBUG)         echo "<p class='debug'>📑 <b>Line " . __LINE__ . "</b>: Daten werden in die Datenbank eingefügt <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+      $successMessage = "Das Medium wird an die Datenbank geschickt:<br>" .
+         "$mediaType <i><b>$title von $author</b></i><br>" .
+         "für $price €<br>" .
+         "von $year <br>";
+      echo "<h3>$successMessage</h3>";
+   }
    // End form check
 }
 ?>

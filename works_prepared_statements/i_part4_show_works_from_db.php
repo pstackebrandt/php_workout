@@ -29,9 +29,9 @@ $year = null;
 $mediaType = null;
 
 // if (DEBUG) {
-if (DEBUG && 0) {
+if (DEBUG && 1) {
    // Set default form content for debugging
-   $author = 'Pedro';
+   $author = 'Pedro 2';
    $title = 'Wilde Geschichten';
    $price = 29.95;
 }
@@ -207,6 +207,25 @@ if (isset($_GET['action']) === true) {
       // Show all data from the database
       // *****************************************************************
 
+      // Establish connection to the database (Step 1) 
+      $PDO = dbConnect($dbName);
+
+      // Create SQL statement and placeholder array. (Step 2)
+      $sql = 'SELECT * FROM werke';
+      $placeholders = [];
+
+      // Use preapred statements and fetch data (Step 3)
+      $PDOStatement = $PDO->prepare($sql);
+      $PDOStatement->execute($placeholders);
+      $result = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
+
+      echo "<pre>";
+      print_r($result);
+      echo "</pre>";
+
+
+      // Close db
+      unset($PDO);
    } // End process GET showAllData
 } // End process GET calls with action
 ?>

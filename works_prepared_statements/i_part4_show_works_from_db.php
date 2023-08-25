@@ -46,7 +46,6 @@ if (is_null($year)) {
    $year = Date('Y');
 }
 
-
 // Step 1 FORM: Check whether form has been submitted.
 // *****************************************************************************
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$_POST <i>(" . basename(__FILE__) . ")</i>:<br>\n";
@@ -189,9 +188,27 @@ if (isset($_POST[$formName]) === true) {
       $price = null;
       $year = null;
       $mediaType = null;
-   }
-   // End form check
-}
+   } // End form check
+} // End form processing
+
+//*****************************************************************
+//************** Process GET calls with action ********************
+
+if (DEBUG)   echo "<p class='debug'>📑 <b>Line " . __LINE__ . "</b>: Prüfe auf GET action ... <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+// Step 1 URL: Check if a URL parameter was passed
+if (isset($_GET['action']) === true) {
+   // GET call with action occured
+   if (DEBUG) echo "<p class='debug'>🧻 <b>Line " . __LINE__ . "</b>: URL parameter 'action'  was passed. <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+   // Step 2 URL: Read, sanitize, debug output of passed URL parameter
+   // *****************************************************************
+   if ($_GET['action'] === 'showAllData') {
+      // Show all data from the database
+      // *****************************************************************
+
+   } // End process GET showAllData
+} // End process GET calls with action
 ?>
 <!doctype html>
 

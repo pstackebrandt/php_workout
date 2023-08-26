@@ -15,31 +15,48 @@ declare(strict_types=1); ?>
    <h1>Workout</h1>
 
    <?php
-   echo "<h1>Log to html logfile</h1>\n";
+   // use strict type declaration
 
-   // Bestimmen Sie den Pfad zu Ihrem Log-File im Anwendungsordner
-   // $logFile = __DIR__ . '/mein-logfile.log';
+   function logMessage(string $message, string $file): void
+   {
+      $logEntry = formatLogEntry($message, $file);
+      saveLogEntry($logEntry);
+   }
 
-   $e = new Exception('Could not connect to the starship enterprise');
+   function logException(Exception $exception, string $file): void
+   {
+      $message = $exception->getMessage();
+      $logEntry = formatLogEntry($message, $file);
+      saveLogEntry($logEntry);
+   }
 
-   // Verwenden Sie error_log(), um in die spezifizierte Datei zu schreiben
-   // error_log("Database Error: " . $e->getMessage(), 3, $logFile);
+   function formatLogEntry(string $message, string $file): string
+   {
+      return "<p>"
+         . date('Y-m-d | H:i:s') . " | "
+         . "File: <i>'" . $file . "'</i> | "
+         . "<b>$message</b>"
+         . "</p>\n";
+   }
+
+   function saveLogEntry(string $logEntry): void
+   {
+      file_put_contents('./logfiles/errorLog.html', $logEntry, FILE_APPEND);
+   }
 
    // Ordner erzeugen
    @mkdir('./logfiles');
 
-   // $errorMessage = 'Ungültiger Login - Password falsch';
-   $errorMessage = $e->getMessage();
 
-   // Vorbereiten des Logeintrags
-   $logEntry  = "<p>";
-   $logEntry .= date('Y-m-d | H:i:s') . " | ";
-   $logEntry .= "File: <i>'" . __FILE__ . "'</i> | ";
-   $logEntry .= "<b>$errorMessage</b>";
-   $logEntry .= "</p>\n";
+   echo "<h1>Log to html logfile</h1>\n";
 
-   // Vorbereiteten LogEintrag in 'errorLog.html' speichern
-   file_put_contents('./logfiles/errorLog.html', $logEntry, FILE_APPEND);
+   // Log exception
+   $e = new Exception('Could not connect to the starship enterprise');
+   logException($e, basename(__FILE__));
+
+   // Log message
+   logMessage('Test log. Logged a message.', basename(__FILE__));
+
    ?>
 
 </body>

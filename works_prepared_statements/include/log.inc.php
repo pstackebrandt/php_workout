@@ -1,5 +1,5 @@
 <?php
-   // use strict type declaration
+   declare(strict_types=1);
 
    function logMessage(string $message, string $file): void
    {

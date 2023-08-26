@@ -209,30 +209,42 @@ if (isset($_GET['action']) === true) {
    $action = sanitizeString($_GET['action']);
    if ($action === 'showAllData') {
 
-      // Show all data from the database
-      // *****************************************************************
-
-      // Establish connection to the database (Step 1) 
-      $PDO = dbConnect($dbName);
-
-      // Create SQL statement and placeholder array. (Step 2)
-      $sql = 'SELECT * FROM werke';
-      $placeholders = [];
-
-      // Use preapred statements and fetch data (Step 3)
-      $PDOStatement = $PDO->prepare($sql);
-      $PDOStatement->execute($placeholders);
-
-      // Add error handling for DB errors
-      $result = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
-
-      echo "<pre>";
-      print_r($result);
-      echo "</pre>";
-
-      // Close db
-      unset($PDO);
-   } else if ($action === 'showAuthorsAndTitles') {
+      // Try to execute database operations
+      try {
+   
+         // Establish connection to the database (Step 1) 
+         $PDO = dbConnect($dbName);
+   
+         // Set PDO to throw exceptions on error
+         $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+   
+         // Create SQL statement and placeholder array. (Step 2)
+         $sql = 'SELECT * FROM werke';
+         $placeholders = [];
+   
+         // Use preapred statements and fetch data (Step 3)
+         $PDOStatement = $PDO->prepare($sql);
+         $PDOStatement->execute($placeholders);
+   
+         // Fetch all results
+         $result = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
+   
+         echo "<pre>";
+         print_r($result);
+         echo "</pre>";
+   
+      } catch(PDOException $e) {
+         // Here you can handle the error, for example, logging and showing an error message.
+         error_log("Fetch all works: Database Error: " . $e->getMessage()); // Log error for debugging
+         echo "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.";
+   
+      } finally {
+   
+         // Close db
+         unset($PDO);
+      }
+   }
+    else if ($action === 'showAuthorsAndTitles') {
       if (DEBUG_V)   echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$action: $action <i>(" . basename(__FILE__) . ")</i></p>\n";
 
       // Show all authors and their works

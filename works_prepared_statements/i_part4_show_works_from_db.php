@@ -201,9 +201,14 @@ if (isset($_GET['action']) === true) {
    // GET call with action occured
    if (DEBUG) echo "<p class='debug'>🧻 <b>Line " . __LINE__ . "</b>: URL parameter 'action'  was passed. <i>(" . basename(__FILE__) . ")</i></p>\n";
 
+   if (DEBUG_V)   echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$action: $action <i>(" . basename(__FILE__) . ")</i></p>\n";
+
    // Step 2 URL: Read, sanitize, debug output of passed URL parameter
    // *****************************************************************
-   if ($_GET['action'] === 'showAllData') {
+
+   $action = sanitizeString($_GET['action']);
+   if ($action === 'showAllData') {
+
       // Show all data from the database
       // *****************************************************************
 
@@ -217,16 +222,50 @@ if (isset($_GET['action']) === true) {
       // Use preapred statements and fetch data (Step 3)
       $PDOStatement = $PDO->prepare($sql);
       $PDOStatement->execute($placeholders);
+
+      // Add error handling for DB errors
       $result = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
 
       echo "<pre>";
       print_r($result);
       echo "</pre>";
 
+      // Close db
+      unset($PDO);
+   } else if ($action === 'showAuthorsAndTitles') {
+      if (DEBUG_V)   echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$action: $action <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+      // Show all authors and their works
+      // *****************************************************************
+
+      // Establish connection to the database (Step 1) 
+      $PDO = dbConnect($dbName);
+
+      // Create SQL statement and placeholder array. (Step 2)
+      $sql = 'SELECT werkeAuthor, werkeTitle from werke';
+      $placeholders = [];
+
+      // Schritt 3 DB: Prepared Statements
+      try {
+         // Prepare: SQL-Statement vorbereiten
+         $PDOStatement = $PDO->prepare($sql);
+
+         $PDOStatement->execute($params);
+      } catch (PDOException $error) {
+         if (DEBUG) echo "<p class='debug db err'><b>Line " . __LINE__ . "</b>: FEHLER: " . $error->GetMessage() . "<i>(" . basename(__FILE__) . ")</i></p>\n";
+         $dbError = 'Fehler beim Zugriff auf die Datenbank!';
+      }
+
+      // Use preapred statements and fetch data (Step 3)
+      $PDOStatement = $PDO->prepare($sql);
+      $PDOStatement->execute($placeholders);
+      $result = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
 
       // Close db
       unset($PDO);
-   } // End process GET showAllData
+   }
+
+   // End process GET showAllData
 } // End process GET calls with action
 ?>
 <!doctype html>

@@ -1,20 +1,4 @@
 <?php
-
-declare(strict_types=1); ?>
-<!doctype html>
-
-<html>
-
-<head>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <title>workout</title>
-</head>
-
-<body>
-   <h1>Workout</h1>
-
-   <?php
    // use strict type declaration
 
    function logMessage(string $message, string $file): void
@@ -47,22 +31,4 @@ declare(strict_types=1); ?>
    // Ordner erzeugen
    @mkdir('./logfiles');
 
-
-   echo "<h1>Log to html logfile</h1>\n";
-
-   // Log exception
-   $e = new Exception('Could not connect to the starship enterprise');
-   logException($e, basename(__FILE__));
-
-   // Log message
-   logMessage('Test log. Logged a message.', basename(__FILE__));
-
    ?>
-
-</body>
-
-<h3>Error Log:</h3>
-
-<?php include('./logfiles/errorLog.html') ?>
-
-</html>

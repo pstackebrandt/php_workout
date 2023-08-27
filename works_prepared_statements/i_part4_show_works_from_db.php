@@ -198,10 +198,11 @@ if (DEBUG)   echo "<p class='debug'>📑 <b>Line " . __LINE__ . "</b>: Prüfe au
 
 // Step 1 URL: Check if a URL parameter was passed
 if (isset($_GET['action']) === true) {
+   $action = $_GET['action'];
    // GET call with action occured
    if (DEBUG) echo "<p class='debug'>🧻 <b>Line " . __LINE__ . "</b>: URL parameter 'action'  was passed. <i>(" . basename(__FILE__) . ")</i></p>\n";
 
-   if (DEBUG_V)   echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$action: $action <i>(" . basename(__FILE__) . ")</i></p>\n";
+   if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$action: $action <i>(" . basename(__FILE__) . ")</i></p>\n";
 
    // Step 2 URL: Read, sanitize, debug output of passed URL parameter
    // *****************************************************************
@@ -211,71 +212,73 @@ if (isset($_GET['action']) === true) {
 
       // Try to execute database operations
       try {
-   
+
          // Establish connection to the database (Step 1) 
          $PDO = dbConnect($dbName);
-   
+
          // Set PDO to throw exceptions on error
          $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-   
+
          // Create SQL statement and placeholder array. (Step 2)
          $sql = 'SELECT * FROM werke';
          $placeholders = [];
-   
+
          // Use preapred statements and fetch data (Step 3)
          $PDOStatement = $PDO->prepare($sql);
          $PDOStatement->execute($placeholders);
-   
+
          // Fetch all results
          $result = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
-   
+
          echo "<pre>";
          print_r($result);
          echo "</pre>";
-   
-      } catch(PDOException $e) {
+      } catch (PDOException $error) {
          // Here you can handle the error, for example, logging and showing an error message.
-         error_log("Fetch all works: Database Error: " . $e->getMessage()); // Log error for debugging
+         error_log("Fetch all works: Database Error: " . $error->getMessage()); // Log error for debugging
          echo "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.";
-   
       } finally {
-   
+
          // Close db
          unset($PDO);
       }
-   }
-    else if ($action === 'showAuthorsAndTitles') {
-      if (DEBUG_V)   echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$action: $action <i>(" . basename(__FILE__) . ")</i></p>\n";
+   } else if ($action === 'showAuthorsAndTitles') {
+      if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$action: $action <i>(" . basename(__FILE__) . ")</i></p>\n";
 
       // Show all authors and their works
-      // *****************************************************************
-
-      // Establish connection to the database (Step 1) 
-      $PDO = dbConnect($dbName);
-
-      // Create SQL statement and placeholder array. (Step 2)
-      $sql = 'SELECT werkeAuthor, werkeTitle from werke';
-      $placeholders = [];
-
-      // Schritt 3 DB: Prepared Statements
+      // ***********************************************************
       try {
-         // Prepare: SQL-Statement vorbereiten
-         $PDOStatement = $PDO->prepare($sql);
+         // Establish connection to the database (Step 1) 
+         $PDO = dbConnect($dbName);
 
-         $PDOStatement->execute($params);
+         // Set PDO to throw exceptions on error
+         $PDO->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+         // Create SQL statement and placeholder array. (Step 2)
+         $sql = 'SELECT werkeAuthor, werkeTitle from werke';
+         $placeholders = [];
+
+         // Use preapared statements and fetch data (Step 3)
+         $PDOStatement = $PDO->prepare($sql);
+         $PDOStatement->execute($placeholders);
+         $result = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
+
+         echo "<pre>";
+         print_r($result);
+         echo "</pre>";
       } catch (PDOException $error) {
          if (DEBUG) echo "<p class='debug db err'><b>Line " . __LINE__ . "</b>: FEHLER: " . $error->GetMessage() . "<i>(" . basename(__FILE__) . ")</i></p>\n";
          $dbError = 'Fehler beim Zugriff auf die Datenbank!';
+
+         error_log("Fetch all works: Database Error: " . $error->getMessage()); // Log error for debugging
+
+         echo "Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.";
       }
-
-      // Use preapred statements and fetch data (Step 3)
-      $PDOStatement = $PDO->prepare($sql);
-      $PDOStatement->execute($placeholders);
-      $result = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
-
-      // Close db
-      unset($PDO);
-   }
+      finally {
+         // Close db
+         unset($PDO);
+      }
+   } // SHOW AUTHOR AND WERK END
 
    // End process GET showAllData
 } // End process GET calls with action

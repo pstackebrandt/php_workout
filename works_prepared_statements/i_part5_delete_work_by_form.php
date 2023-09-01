@@ -21,6 +21,11 @@ $formName = 'worksForm';
 $fileName = basename(__FILE__);
 $dbName = 'buechersammlung';
 
+// Variables for delete work
+$deleteWorkFormName = 'deleteWorkForm';
+$deleteWorkFormId = 'deleteWorkForm';
+$allWorkIds = ['1', '2', '3']; // Currently dummy data. We need to get the ids from the database
+
 // Form parmeters
 $author = null;
 $title = null;
@@ -350,6 +355,40 @@ if (isset($_GET['action'])) {
 
 
       </form>
+
+      <!-- Delete work in a select 
+	• Erstelle Formular unter dem ersten
+		○ Enthält Select-Box mit allen IDs der in der DB vorhandenen Einträge enthält
+		○ Ok Button
+		○ IDs sollen aus der DB ausgelesen werden
+	• Wird der OK-Button geklickt, soll der entsprechende Eintrag aus der DB gelöscht werden. 
+	• DB-Operation zum Löschen eines Eintrags wird in Schritt 4 einer Formularverarbeitung durchgeführt
+
+   Implementierung
+	• Statischen Select-Box Dummy erstellen
+	• Daten aus DB auslesen
+		○ ID
+	• Formular aufbauen mit geladenen Daten
+	• Auf Formulardatenverschickung reagieren
+		○ Select und ok
+	• Eintrag mit ID aus DB löschen
+	• Seite aktualisieren
+		○ also neu zur Seite navigieren Form
+
+-->
+      <form id="<?= $deleteWorkFormName ?>" action="" methode="POST">
+         <input type="hidden" name="<?= $deleteWorkFormName ?>">
+         <br>
+         <p>Choose a work to delete. Afterwards click ok Button to delete it.</p>
+         <label for="deleteWorkChooser">Ids of deletable works</label><br>
+         <select id="deleteWorkChooser" name="deleteWorkChooser">
+            <?php foreach ($allWorkIds as $workId) : ?>
+               <option value="<?= $workId ?>"><?= $workId ?></option>
+            <?php endforeach; ?>
+         </select>
+         <input type="submit" value="Delete this work">
+      </form>
+
 </body>
 
 </html>

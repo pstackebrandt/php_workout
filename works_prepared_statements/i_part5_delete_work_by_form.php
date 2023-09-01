@@ -20,11 +20,21 @@ $mediaTypes = [
 $formName = 'worksForm';
 $fileName = basename(__FILE__);
 $dbName = 'buechersammlung';
+$tableWorksName = 'werke';
 
 // Variables for delete work
 $deleteWorkFormName = 'deleteWorkForm';
 $deleteWorkFormId = 'deleteWorkForm';
-$allWorkIds = ['1', '2', '3']; // Currently dummy data. We need to get the ids from the database
+
+// old dummy data
+// $allWorkIds = ['1', '2', '3']; // Currently dummy data. We need to get the ids from the database
+
+// current dummy data
+$allWorksIds = array(
+   array('werkeID' => 1),
+   array('werkeID' => 2),
+   array('werkeID' => 3)
+);
 
 // Form parmeters
 $author = null;
@@ -56,6 +66,45 @@ if (is_null($year)) {
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$_POST <i>(" . basename(__FILE__) . ")</i>:<br>\n";
 if (DEBUG_V)   print_r($_POST);
 if (DEBUG_V)   echo "</pre>";
+
+// ******************  Load ids of all works from database ******************
+
+if (DEBUG) echo "<p class='debug'>📑 <b>Line " . __LINE__ . "</b>: Fetch ids of all works from db ... <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+// Schritt 1 DB: DB-Verbindung herstellen
+$PDO = dbConnect($dbName);
+
+// Schritt 2 DB: SQL-Statement vorbereiten
+$sql       = "SELECT werkeID FROM $tableWorksName";
+$params    = array();
+
+// Schritt 3 DB: Prepared Statements
+try {
+   // Prepare: SQL-Statement vorbereiten
+   $PDOStatement = $PDO->prepare($sql);
+
+   // Execute: SQL-Statement ausführen und ggf. Platzhalter füllen
+   $PDOStatement->execute($params);
+} catch (PDOException $error) {
+   if (DEBUG) echo "<p class='debug db err'><b>Line " . __LINE__ . "</b>: FEHLER: " . $error->GetMessage() . "<i>(" . basename(__FILE__) . ")</i></p>\n";
+   $dbError = 'Fehler beim Zugriff auf die Datenbank!';
+}
+
+// Schritt 4 DB: Daten weiterverarbeiten
+$resultArray = $PDOStatement->fetchAll(PDO::FETCH_ASSOC);
+
+// DB-Verbindung schließen
+if (DEBUG_DB) echo "<p class='debug db'><b>Line " . __LINE__ . "</b>: DB-Verbindung wird geschlossen. <i>(" . basename(__FILE__) . ")</i></p>\n";
+unset($PDO);
+
+if (DEBUG_V)   echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$resultArray <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V)   print_r($resultArray);
+if (DEBUG_V)   echo "</pre>";
+
+// end load ids of all works from database
+
+// Extract ids from result array
+
 
 if (isset($_POST[$formName]) === true) {
    if (DEBUG)      echo "<p class='debug'>🧻 <b>Line " . __LINE__ . "</b>: Formular '$formName' wurde abgeschickt. <i>(" . basename(__FILE__) . ")</i></p>\n";
@@ -382,8 +431,8 @@ if (isset($_GET['action'])) {
          <p>Choose a work to delete. Afterwards click ok Button to delete it.</p>
          <label for="deleteWorkChooser">Ids of deletable works</label><br>
          <select id="deleteWorkChooser" name="deleteWorkChooser">
-            <?php foreach ($allWorkIds as $workId) : ?>
-               <option value="<?= $workId ?>"><?= $workId ?></option>
+            <?php foreach ($allWorksIds as $work) : ?>
+               <option value="<?= $work['werkeID'] ?>"><?= $work['werkeID'] ?></option>
             <?php endforeach; ?>
          </select>
          <input type="submit" value="Delete this work">

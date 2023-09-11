@@ -71,16 +71,28 @@ $musicILike = [$pinkFloyd, $maiden, $manowar, $accept];
 
    <h2 class="my-3 text-secondary">Music I like</h2>
 
-      <!-- list the content of $musicILike -->
-      <ul class="list-group">
-         <?php
-         foreach ($musicILike as $medium) {
-            echo "<li class='list-group-item'>" . $medium->getTitle() . ' - ' . $medium->getArtist() . ' (' . $medium->getReleaseYear() . ')</li>';
-         }
-         ?>
-      </ul>
+   <h3 class="my-2 ">Get formatted html from User class</h2>
+   <!-- Get formatted html from User class -->
+   <ul class="list-group">
+      <?php
+      foreach ($musicILike as $medium) {
+         echo $medium->getAllMediumsAsUnorderedListItemHTML();
+      }
+      ?>
+   </ul>
 
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+   <!-- list the content of $musicILike -->
+   <ul class="list-group">
+      <?php
+      foreach ($musicILike as $medium) {
+         echo "<li class='list-group-item'>" . $medium->getTitle() . ' - ' . $medium->getArtist() . ' (' . $medium->getReleaseYear() . ')</li>';
+      }
+      ?>
+   </ul>
+
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>

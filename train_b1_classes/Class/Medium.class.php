@@ -59,6 +59,15 @@ class Medium
     {
         $this->mediumType = $mediumType;
     }
+
+    public function getAllMediumsAsUnorderedListItemHTML(): string
+    {
+        $formattedMedium = "<li class='list-group-item'>";
+        $formattedMedium .= $this->getTitle() . ' - '  . $this->getArtist()  . ' (' . $this->getReleaseYear() . ')';
+        $formattedMedium .= '</li>';
+
+        return $formattedMedium;
+    }
 }
 
 enum MediumType: string

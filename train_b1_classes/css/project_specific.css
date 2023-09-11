@@ -1,11 +1,7 @@
-fieldset {
-   margin: 5px;
-   width: 300px;
-   border-radius: 5px;
-   padding: 10px 20px;
-   background-color: whitesmoke;
+.custom-h1 {
+   color: blue;  /* Oder jede andere Farbe, die du bevorzugst */
 }
 
-.radio-button-mediatype {
-   width: 20px;
+.custom-h2 {
+   color: orange;  /* Oder jede andere Farbe, die du bevorzugst */
 }

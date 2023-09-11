@@ -2,22 +2,23 @@
 
 class Medium
 {
-    private string $title;
-    private string $artist;
-    private int $releaseYear;
-    private MediumType $mediumType;
+    private ?string $title;
+    private ?string $artist;
+    private ?int $releaseYear;
+    private ?MediumType $mediumType;
 
     public function __construct(
-        string $title,
-        string $artist,
-        int $releaseYear,
-        MediumType $mediumType
+        string $title = null,
+        string $artist = null,
+        int $releaseYear = null,
+        MediumType $mediumType = null
     ) {
         $this->title = $title;
         $this->artist = $artist;
         $this->releaseYear = $releaseYear;
         $this->mediumType = $mediumType;
     }
+
 
     public function getTitle(): string
     {

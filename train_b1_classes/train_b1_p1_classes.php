@@ -53,7 +53,7 @@ $musicILike = [$pinkFloyd, $maiden, $manowar, $accept];
 
 <!doctype html>
 
-<html>
+<html lang="de">
 
 <head>
    <meta charset="utf-8">
@@ -71,7 +71,7 @@ $musicILike = [$pinkFloyd, $maiden, $manowar, $accept];
 
    <h2 class="my-3 text-secondary">Music I like</h2>
 
-   <h3 class="my-2 ">Get formatted html from User class</h2>
+   <h3 class="my-2 ">Get formatted html from User class</h3>
    <!-- Get formatted html from User class -->
    <ul class="list-group">
       <?php

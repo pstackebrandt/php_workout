@@ -10,51 +10,90 @@ require_once('./include/form.inc.php');
 
 #********** INCLUDE CLASSES **********#
 require_once('./class/Medium.class.php');
+require_once('./class/Artist.class.php');
 
 
 #********** Create media instances **********#
 
-$pinkFloyd = new Medium(
+// Full medium with full artist as variable
+// ----------------------------------------
+$pinkFloyd = new Artist(
+    'Pink',
+    'Floyd',
+    ArtistRole::BAND->value
+);
+
+$floydDarkSide = new Medium(
     'The Dark Side of the Moon',
-    'Pink Floyd',
+    $pinkFloyd,
     1973,
-    MediumType::CD
+    MediumType::CD,
+    '9.99'
 );
 
-$maiden = new Medium(
+// Full medium with artist created in constructor
+// ----------------------------------------------
+$maidenNumberBeast = new Medium(
     'The Number of the Beast',
-    'Iron Maiden',
+    new Artist(
+        lastName: 'Iron Maiden',
+        role: ArtistRole::BAND->value),
     1982,
-    MediumType::DVD
+    MediumType::DVD,
+    price: '12.99'
 );
 
-$manowar = new Medium();
-$manowar->setTitle('Kings of Metal');
-$manowar->setArtist('Manowar');
-$manowar->setReleaseYear(1988);
-$manowar->setMediumType(MediumType::CD);
+// Empty medium with empty artist
+// ------------------------------
+$emptyMedium = new Medium(artist: new Artist());
+
+
+// Empty medium with full artist
+// -----------------------------
+$mano = new Artist(
+    null,
+    'Manowar',
+    ArtistRole::BAND->value
+);
+
+
+$manowarKing = new Medium(artist: $mano);
+
+// Add title, release year and medium type after init by setter
+$manowarKing->setTitle('Kings of Metal');
+$manowarKing->setArtist($mano);
+$manowarKing->setReleaseYear(1988);
+$manowarKing->setMediumType(MediumType::CD);
 
 // Add newest accept cd
-$accept = new Medium(
+$acceptMean = new Medium(
     'Too Mean to Die',
-    'Accept',
+    new Artist(lastName: "Accept", role: ArtistRole::INTERPRET->value),
     2021,
-    MediumType::CD
+    MediumType::CD,
+    '12.99'
 );
 
+// Fill author after use
+$tolkien = new Artist();
+
 // Add lords of the rings book
-$lordsOfTheRings = new Medium(
+$tolkienLord = new Medium(
     'The Lord of the Rings',
-    'J. R. R. Tolkien',
+    $tolkien,
     1954,
     MediumType::BOOK
 );
 
-$accept->setMediumType(MediumType::DVD);
+$tolkien->setFirstName('John Ronald Reuel');
+$tolkien->setLastName('Tolkien');
+$tolkien->setRole(ArtistRole::AUTHOR->value);
+
 
 // Add media to array $musicILike
-$musicILike = [$pinkFloyd, $maiden, $manowar, $accept];
-$musicILike[] = $lordsOfTheRings;
+$musicILike = [$floydDarkSide, $maidenNumberBeast, $manowarKing, $acceptMean];
+$musicILike[] = $tolkienLord;
+$musicILike[] = $emptyMedium;
 
 // Variables
 
@@ -83,16 +122,7 @@ $musicILike[] = $lordsOfTheRings;
 <ul class="list-group">
     <?php
     foreach ($musicILike as $medium) {
-        echo $medium->getAllMediumsAsUnorderedListItemHTML();
-    }
-    ?>
-</ul>
-
-<!-- list the content of $musicILike -->
-<ul class="list-group">
-    <?php
-    foreach ($musicILike as $medium) {
-        echo "<li class='list-group-item'>" . $medium->getTitle() . ' - ' . $medium->getArtist() . ' (' . $medium->getReleaseYear() . ')</li>';
+        echo $medium->getAllMedia_asUnorderedListItemHTML();
     }
     ?>
 </ul>

@@ -1,5 +1,6 @@
 <?php
-
+declare(strict_types=1);
+namespace train_b2_classes;
 class Medium
 {
     private ?string $title;
@@ -19,7 +20,12 @@ class Medium
         $this->mediumType = $mediumType;
     }
 
+    //  ****************************************
+    //          SETTER & GETTER
+    //  ****************************************
 
+    //          TITLE
+    // ****************************
     public function getTitle(): string
     {
         return $this->title;
@@ -29,6 +35,9 @@ class Medium
     {
         $this->title = $title;
     }
+
+    //          ARTIST
+    // ****************************
 
     public function getArtist(): string
     {
@@ -40,6 +49,9 @@ class Medium
         $this->artist = $artist;
     }
 
+    //          RELEASE YEAR
+    // ****************************
+
     public function getReleaseYear(): int
     {
         return $this->releaseYear;
@@ -49,6 +61,10 @@ class Medium
     {
         $this->releaseYear = $releaseYear;
     }
+
+    //          MEDIUM TYPE
+    // ****************************
+
 
     public function getMediumType(): MediumType
     {
@@ -73,7 +89,11 @@ class Medium
 enum MediumType: string
 {
     case DVD = "DVD";
-    case BLURAY = "Blu-ray";
+    case BLUE_RAY = "Blue-ray";
     case CD = "CD";
     case LP = "LP";
+
+    case MC = "MC";
+
+    case BOOK = "Buch";
 }

@@ -1,6 +1,6 @@
 <?php
-
 declare(strict_types=1);
+namespace train_b2_classes;
 
 require_once '../utility/print_helper.php';
 
@@ -42,10 +42,19 @@ $accept = new Medium(
     MediumType::CD
 );
 
+// Add lords of the rings book
+$lordsOfTheRings = new Medium(
+    'The Lord of the Rings',
+    'J. R. R. Tolkien',
+    1954,
+    MediumType::BOOK
+);
+
 $accept->setMediumType(MediumType::DVD);
 
 // Add media to array $musicILike
 $musicILike = [$pinkFloyd, $maiden, $manowar, $accept];
+$musicILike[] = $lordsOfTheRings;
 
 // Variables
 

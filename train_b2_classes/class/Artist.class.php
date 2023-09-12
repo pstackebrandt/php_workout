@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+namespace train_b2_classes;
 
 class Artist
 {
@@ -49,12 +51,12 @@ class Artist
 
     //          ROLE
     // ****************************
-    public function getRole(): int
+    public function getRole(): string
     {
         return $this->role;
     }
 
-    public function setRole(int $role): void
+    public function setRole(string $role): void
     {
         $this->role = $role;
     }

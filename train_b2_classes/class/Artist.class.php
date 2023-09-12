@@ -1,79 +1,68 @@
 <?php
 
-class Medium
+class Artist
 {
-    private ?string $title;
-    private ?string $artist;
-    private ?int $releaseYear;
-    private ?MediumType $mediumType;
+    private ?string $firstName;
+    private ?string $lastName;
+    private ?string $role;
+
 
     public function __construct(
-        string $title = null,
-        string $artist = null,
-        int $releaseYear = null,
-        MediumType $mediumType = null
-    ) {
-        $this->title = $title;
-        $this->artist = $artist;
-        $this->releaseYear = $releaseYear;
-        $this->mediumType = $mediumType;
-    }
-
-
-    public function getTitle(): string
+        string $firstName = null,
+        string $lastName = null,
+        int    $role = null,
+    )
     {
-        return $this->title;
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+        $this->role = $role;
     }
 
-    public function setTitle(string $title): void
+    //  ****************************************
+    //          SETTER & GETTER
+    //  ****************************************
+
+    //          FirstName
+    // ****************************
+    public function getFirstName(): string
     {
-        $this->title = $title;
+        return $this->firstName;
     }
 
-    public function getArtist(): string
+    public function setFirstName(string $firstName): void
     {
-        return $this->artist;
+        $this->firstName = $firstName;
     }
 
-    public function setArtist(string $artist): void
+
+    //          LastName
+    // ****************************
+    public function getLastName(): string
     {
-        $this->artist = $artist;
+        return $this->lastName;
     }
 
-    public function getReleaseYear(): int
+    public function setLastName(string $lastName): void
     {
-        return $this->releaseYear;
+        $this->lastName = $lastName;
     }
 
-    public function setReleaseYear(int $releaseYear): void
+    //          ROLE
+    // ****************************
+    public function getRole(): int
     {
-        $this->releaseYear = $releaseYear;
+        return $this->role;
     }
 
-    public function getMediumType(): MediumType
+    public function setRole(int $role): void
     {
-        return $this->mediumType;
+        $this->role = $role;
     }
 
-    public function setMediumType(MediumType $mediumType): void
-    {
-        $this->mediumType = $mediumType;
-    }
 
-    public function getAllMediumsAsUnorderedListItemHTML(): string
-    {
-        $formattedMedium = "<li class='list-group-item'>";
-        $formattedMedium .= $this->getTitle() . ' - '  . $this->getArtist()  . ' (' . $this->getReleaseYear() . ')';
-        $formattedMedium .= '</li>';
+    //  ****************************************
+    //          METHODS & FUNCTIONS
+    //  ****************************************
 
-        return $formattedMedium;
-    }
 }
 
-enum MediumType: string
-{
-    case DVD = "DVD";
-    case BLURAY = "Blu-ray";
-    case CD = "CD";
-    case LP = "LP";
-}

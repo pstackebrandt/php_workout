@@ -18,12 +18,12 @@ abstract class Kfz
     #********** CONSTRUCTOR **********#
     #*********************************#
 
-    public function __construct($motor = NULL)
+    public function __construct($kabine = NULL)
     {
         if (DEBUG_CC) echo "<p class='debug class'>🛠 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "()  (<i>" . basename(__FILE__) . "</i>)</p>\n";
 
         // Setter nur aufrufen, wenn der jeweilige Parameter keinen Leerstring und nicht NULL enthält
-        if ($motor !== '' and $motor !== NULL) $this->setMotor($motor);
+        if ($kabine !== '' and $kabine !== NULL) $this->setMotor($kabine);
 
         if (DEBUG_CC) echo "<pre class='debug class value'><b>Line " . __LINE__ . "</b> | " . __METHOD__ . "(): <i>(" . basename(__FILE__) . ")</i>:<br>\n";
         if (DEBUG_CC) print_r($this);

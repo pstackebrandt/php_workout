@@ -27,12 +27,12 @@ class Pkw extends Kfz
     #********** CONSTRUCTOR **********#
     #*********************************#
 
-    public function __construct($kabine = NULL, $karosserie = NULL)
+    public function __construct($motor = NULL, $karosserie = NULL)
     {
         if (DEBUG_CC) echo "<p class='debug class'>🛠 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "()  (<i>" . basename(__FILE__) . "</i>)</p>\n";
 
         #********** SET PARENT ATTRIBUTES **********#
-        parent::__construct($kabine);
+        parent::__construct($motor);
 
         // Setter nur aufrufen, wenn der jeweilige Parameter keinen Leerstring und nicht NULL enthält
         if ($karosserie !== '' and $karosserie !== NULL) $this->setKarosserie($karosserie);

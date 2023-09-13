@@ -14,6 +14,22 @@ abstract class Kfz
 
     protected Motor $motor;
 
+    #*********************************#
+    #********** CONSTRUCTOR **********#
+    #*********************************#
+
+    public function __construct($motor = NULL)
+    {
+        if (DEBUG_CC) echo "<p class='debug class'>🛠 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "()  (<i>" . basename(__FILE__) . "</i>)</p>\n";
+
+        // Setter nur aufrufen, wenn der jeweilige Parameter keinen Leerstring und nicht NULL enthält
+        if ($motor !== '' and $motor !== NULL) $this->setMotor($motor);
+
+        if (DEBUG_CC) echo "<pre class='debug class value'><b>Line " . __LINE__ . "</b> | " . __METHOD__ . "(): <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+        if (DEBUG_CC) print_r($this);
+        if (DEBUG_CC) echo "</pre>";
+    }
+
     #*************************************#
     #********** GETTER & SETTER **********#
     #*************************************#
@@ -25,10 +41,10 @@ abstract class Kfz
         return $this->motor;
     }
 
-    public function setMotor(string $value): void
+    public function setMotor(Motor $value): void
     {
         if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
-        $this->motor = sanitizeString($value);
+        $this->motor = $value;
     }
 
     #******************************#
@@ -36,54 +52,43 @@ abstract class Kfz
     #******************************#
 
 
-
     #********** GENERATE DATA SHEET **********#
-    public function getDataSheet()
+    public function getDataSheet() : string
     {
         if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
 
         $dataSheet = '<dataSheet>';
 
         // Klassennamen der aufrufenden Instanz auslesen
-      /*  $dataSheet .= "<b>Fahrzeugart:</b> <i>" . get_class($this) . "</i><br>";
+        $dataSheet .= "<b>Fahrzeug:</b> <i>" . get_class($this) . "</i><br>";
 
         // Elternattribute auslesen
-        $dataSheet .= "<b>Hersteller:</b> <i> {$this->getMotor()} </i><br>";
-        $dataSheet .= "<b>Modell:</b> <i> {$this->getModel()} </i><br>";
-
+        $dataSheet .= "<b>Motor:</b> <i>{$this->getMotor()}</i><br>";
 
         // Kinderattribute auslesen
 
-
         #********** CHILD PKW **********#
         // Variante 1: Auslesen des Klassennamens als String
-        if (get_class($this) === 'Pkw') {
-            $dataSheet .= "<b>Karosserieform:</b> <i>{$this->getChassis()}</i><br>";
-            //$dataSheet .= "<b>Karosserieform:</b> <i>{$this->getChassis()}</i><br>";
+        if ($this instanceof Pkw) {
+            $dataSheet .= "<b>Karosserie:</b> <i> {$this->getKarosserie()} </i><br>";
         }
 
-
-        #********** CHILD LKW **********#
-        // Variante 2: Klassenvergleichsoperator
-        if ($this instanceof Lkw) {
-            $dataSheet .= "<b>Gesamtgewicht:</b> <i>{$this->getWeight()}t</i><br>";
-            $dataSheet .= "<b>Anzahl der Achsen:</b> <i>{$this->getAxles()}</i><br>";
-        }*/
-
+        /*
+                 #********** CHILD LKW **********#
+                 // Variante 2: Klassenvergleichsoperator
+                 if ($this instanceof Lkw) {
+                     $dataSheet .= "<b>Gesamtgewicht:</b> <i>{$this->getWeight()}t</i><br>";
+                     $dataSheet .= "<b>Anzahl der Achsen:</b> <i>{$this->getAxles()}</i><br>";
+                 }
+        */
 
         $dataSheet .= '</dataSheet>';
 
         return $dataSheet;
     }
-
-
-    #***********************************************************#
-
 }
 
 
-#*******************************************************************************************#
-?>
 
 
 

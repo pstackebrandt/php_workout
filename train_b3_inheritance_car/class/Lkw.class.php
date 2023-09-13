@@ -70,13 +70,13 @@ namespace train_b3_p1_classes;
 						die entsprechenden SETTER auf, die die Werte anschließend in die 
 						jeweiligen Objektattribute schreiben.
 					*/
-					public function __construct( $manufacturer=NULL, $model=NULL, $weight=NULL, $axles=NULL ) {
+					public function __construct($motor=NULL, $model=NULL, $weight=NULL, $axles=NULL ) {
 if(DEBUG_CC)		echo "<p class='debug class'>🛠 <b>Line " . __LINE__ .  "</b>: Aufruf " . __METHOD__ . "()  (<i>" . basename(__FILE__) . "</i>)</p>\n";						
 						
 						
 						#********** SET PARENT ATTRIBUTES **********#
 						#********** CALL PARENT CONSTRUCTOR TO SET INHERITED ATTRIBUTES **********#
-						parent::__construct( $manufacturer, $model );
+						parent::__construct( $motor, $model );
 						
 						
 						// Setter nur aufrufen, wenn der jeweilige Parameter keinen Leerstring und nicht NULL enthält

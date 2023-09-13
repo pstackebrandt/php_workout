@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace train_b2_classes;
+namespace train_b3_p1_classes;
 
 require_once '../utility/print_helper.php';
 

@@ -10,7 +10,7 @@
 					Erklärung zu 'strict types' in Projekt '01a_klassen_und_instanzen'
 				*/
 				declare(strict_types=1);
-				
+namespace train_b3_p1_classes;
 				
 #*******************************************************************************************#
 

@@ -9,8 +9,6 @@ require_once('./include/db.inc.php');
 require_once('./include/form.inc.php');
 
 #********** INCLUDE CLASSES **********#
-require_once('./class/Medium.class.php');
-require_once('./class/Artist.class.php');
 
 
 #********** Create media instances **********#

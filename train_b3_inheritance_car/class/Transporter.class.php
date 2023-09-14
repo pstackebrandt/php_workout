@@ -4,7 +4,7 @@ namespace train_b3_p1_classes;
 
 use php_workout\utility\TypeCheck;
 require_once('../include/config.inc.php');
-require_once '../../utility/TypeCheck.php';
+require_once '../utility/TypeCheck.class.php';
 
 class Transporter extends Lkw
 {

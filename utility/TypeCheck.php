@@ -11,14 +11,14 @@ require_once '../include/config.inc.php';
  */
 class TypeCheck
 {
-   /**
+    /**
      * Returns true if the given value is not NULL and not an empty string
      * @param mixed $value
      * @return bool
      */
     public static function isNotNullOrEmpty(mixed $value): bool
     {
-        return  $value !== NULL && $value !== '';
+        return $value !== NULL && $value !== '';
     }
 
     /** Returns true if the value is an integer or can be casted to an integer
@@ -27,7 +27,7 @@ class TypeCheck
      */
     public static function isIntOrCastable(int|string $value): bool
     {
-        if(filter_var($value, FILTER_VALIDATE_INT) === true) {
+        if (filter_var($value, FILTER_VALIDATE_INT) === true) {
             return true;
         } else {
             // Fehler (nicht erlaubter Datentyp)

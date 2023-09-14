@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+namespace train_b4_crud_medium;
 
 require_once '../utility/print_helper.php';
 
@@ -9,7 +10,7 @@ require_once('./include/db.inc.php');
 require_once('./include/form.inc.php');
 
 #********** INCLUDE CLASSES **********#
-require_once('./Class/Medium.class.php');
+require_once('./class/Medium.class.php');
 
 
 #********** Create media instances **********#

@@ -3,8 +3,6 @@
 declare(strict_types=1);
 namespace train_b4_crud_medium;
 
-require_once '../utility/print_helper.php';
-
 require_once('./include/config.inc.php');
 require_once('./include/db.inc.php');
 require_once('./include/form.inc.php');
@@ -15,6 +13,7 @@ require_once('./class/Medium.class.php');
 
 #********** Create media instances **********#
 
+// Full medium
 $pinkFloyd = new Medium(
     'The Dark Side of the Moon',
     'Pink Floyd',
@@ -22,6 +21,11 @@ $pinkFloyd = new Medium(
     MediumType::CD
 );
 
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) print_r($pinkFloyd);
+if (DEBUG_V) echo "</pre>";
+
+// Full medium
 $maiden = new Medium(
     'The Number of the Beast',
     'Iron Maiden',
@@ -29,11 +33,22 @@ $maiden = new Medium(
     MediumType::DVD
 );
 
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) print_r($maiden);
+if (DEBUG_V) echo "</pre>";
+
+
+// Empty medium filled with setters
 $manowar = new Medium();
 $manowar->setTitle('Kings of Metal');
 $manowar->setArtist('Manowar');
 $manowar->setReleaseYear(1988);
 $manowar->setMediumType(MediumType::CD);
+
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) print_r($manowar);
+if (DEBUG_V) echo "</pre>";
+
 
 // Add newest accept cd
 $accept = new Medium(
@@ -43,10 +58,22 @@ $accept = new Medium(
     MediumType::CD
 );
 
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) print_r($accept);
+if (DEBUG_V) echo "</pre>";
+
 $accept->setMediumType(MediumType::DVD);
+
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) print_r($accept);
+if (DEBUG_V) echo "</pre>";
 
 // Add media to array $musicILike
 $musicILike = [$pinkFloyd, $maiden, $manowar, $accept];
+
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) print_r($musicILike);
+if (DEBUG_V) echo "</pre>";
 
 // Variables
 
@@ -74,8 +101,14 @@ $musicILike = [$pinkFloyd, $maiden, $manowar, $accept];
 <!-- Get formatted html from User class -->
 <ul class="list-group">
     <?php
+
+    if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+    if (DEBUG_V) print_r($musicILike);
+    if (DEBUG_V) echo "</pre>";
+
+    /** @var Medium[] $musicILike */
     foreach ($musicILike as $medium) {
-        echo $medium->getAllMediumsAsUnorderedListItemHTML();
+        echo $medium->getAllMediaAsUnorderedListItemHTML();
     }
     ?>
 </ul>
@@ -88,6 +121,23 @@ $musicILike = [$pinkFloyd, $maiden, $manowar, $accept];
     }
     ?>
 </ul>
+
+<h3>Check getReleaseYear()</h3>
+<?php
+// Full medium
+$pinkFloyd2 = new Medium(
+    'The Dark Side of the Moon',
+    'Pink Floyd',
+    1973,
+    MediumType::CD
+);
+
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) print_r($pinkFloyd2);
+if (DEBUG_V) echo "</pre>";
+
+echo "getReleaseYear()" . $pinkFloyd2->getReleaseYear() . '<br>';
+?>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

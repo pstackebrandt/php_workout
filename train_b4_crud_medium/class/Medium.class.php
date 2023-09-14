@@ -4,9 +4,8 @@ declare(strict_types=1);
 namespace train_b4_crud_medium;
 
 use php_workout\utility\TypeCheck;
+require_once '../utility/TypeCheck.class.php';
 
-require_once '../../utility/TypeCheck.php';
-require_once('../include/config.inc.php');
 
 class Medium
 {
@@ -35,7 +34,7 @@ class Medium
     #********** GETTER & SETTER **********#
     #*************************************#
 
-    public function getTitle(): string
+    public function getTitle(): string | null
     {
         return $this->title;
     }
@@ -46,7 +45,7 @@ class Medium
         $this->title = sanitizeString($value);
     }
 
-    public function getArtist(): string
+    public function getArtist(): string | null
     {
         return $this->artist;
     }
@@ -57,7 +56,7 @@ class Medium
         $this->artist = sanitizeString($value);
     }
 
-    public function getReleaseYear(): int
+    public function getReleaseYear(): int | null
     {
         return $this->releaseYear;
     }
@@ -66,7 +65,11 @@ class Medium
     {
         if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
 
-        if (TypeCheck::isIntOrCastable($releaseYear)) $this->releaseYear = (int)$releaseYear;
+        if (TypeCheck::isIntOrCastable($releaseYear)) {
+            $this->releaseYear = (int)$releaseYear;
+        } else {
+            if (DEBUG) echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: Value not castable into int. \$releaseYear = $releaseYear  <i>(" . basename(__FILE__) . ")</i></p>\n";
+        }
     }
 
     public function getMediumType(): MediumType

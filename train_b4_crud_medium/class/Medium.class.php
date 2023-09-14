@@ -62,9 +62,11 @@ class Medium
         return $this->releaseYear;
     }
 
-    public function setReleaseYear(int | string $releaseYear): void
+    public function setReleaseYear(int|string $releaseYear): void
     {
-        $this->releaseYear = $releaseYear;
+        if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
+
+        if (TypeCheck::isIntOrCastable($releaseYear)) $this->releaseYear = (int)$releaseYear;
     }
 
     public function getMediumType(): MediumType
@@ -72,12 +74,27 @@ class Medium
         return $this->mediumType;
     }
 
-    public function setMediumType(MediumType $mediumType): void
+    /** Set the medium type if $mediumType is usable. Otherwise, do nothing.
+     * @param MediumType|string $mediumType
+     */
+    public function setMediumType(MediumType|string $mediumType): void
     {
+        if ($mediumType instanceof MediumType) {
+            // is MediumType
+        } else {
+            // is string
+            $mediumType = sanitizeString($mediumType);
+            $mediumType = MediumTypeHelper::toMediumTypeOrNull($mediumType);
+            if (is_null($mediumType)) {
+                if (DEBUG) echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: Value not castable into MediumType. \$mediumType = $mediumType  <i>(" . basename(__FILE__) . ")</i></p>\n";
+                return;
+            }
+        }
+
         $this->mediumType = $mediumType;
     }
 
-    public function getAllMediumsAsUnorderedListItemHTML(): string
+    public function getAllMediaAsUnorderedListItemHTML(): string
     {
         $formattedMedium = "<li class='list-group-item'>";
         $formattedMedium .= $this->getTitle() . ' - ' . $this->getArtist() . ' (' . $this->getReleaseYear() . ')';
@@ -90,7 +107,24 @@ class Medium
 enum MediumType: string
 {
     case DVD = "DVD";
-    case BLURAY = "Blu-ray";
+    case BLU_RAY = "Blu-ray";
     case CD = "CD";
     case LP = "LP";
+}
+
+class MediumTypeHelper
+{
+    /** Return the MediumType for the given string or null if no MediumType value matches the given string.
+     * @param string $mediumType
+     * @return MediumType|null
+     */
+    public static function toMediumTypeOrNull(string $mediumType): ?MediumType
+    {
+        foreach (MediumType::cases() as $case) {
+            if ($case->value === $mediumType) {
+                return $case;
+            }
+        }
+        return null;
+    }
 }

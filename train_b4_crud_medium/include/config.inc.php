@@ -51,6 +51,7 @@
 				// define('DEBUG_F', 			false);				// Debugging for functions
 				define('DEBUG_DB', 			true);				// Debugging for DB operations
 				// define('DEBUG_DB', 			false);				// Debugging for DB operations
-
+                define('DEBUG_C', 			true);				// Debugging for classes
+                define('DEBUG_CC', 			true);				// Debugging for constructor & destructor
 
 #****************************************************************************************************#

@@ -11,7 +11,7 @@ require_once('./include/form.inc.php');
 require_once('./class/Medium.class.php');
 
 
-#********** Create media instances **********#
+#********** Create single media instances **********#
 
 // Full medium
 $pinkFloyd = new Medium(
@@ -25,32 +25,25 @@ if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arra
 if (DEBUG_V) print_r($pinkFloyd);
 if (DEBUG_V) echo "</pre>";
 
-// Full medium
-$maiden = new Medium(
-    'The Number of the Beast',
-    'Iron Maiden',
-    1982,
-    MediumType::DVD
-);
-
-if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-if (DEBUG_V) print_r($maiden);
-if (DEBUG_V) echo "</pre>";
-
-
 // Empty medium filled with setters
-$manowar = new Medium();
-$manowar->setTitle('Kings of Metal');
-$manowar->setArtist('Manowar');
-$manowar->setReleaseYear(1988);
-$manowar->setMediumType(MediumType::CD);
+$manowarEmpty = new Medium();
 
-if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-if (DEBUG_V) print_r($manowar);
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$manowarEmpty <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) print_r($manowarEmpty);
+if (DEBUG_V) echo "</pre>";
+
+$manowarFilledAfterwards = new Medium();
+$manowarFilledAfterwards->setTitle('Kings of Metal');
+$manowarFilledAfterwards->setArtist('Manowar');
+$manowarFilledAfterwards->setReleaseYear(1988);
+$manowarFilledAfterwards->setMediumType(MediumType::CD);
+
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$manowarFilledAfterwards <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) print_r($manowarFilledAfterwards);
 if (DEBUG_V) echo "</pre>";
 
 
-// Add newest accept cd
+// Change medium after creation
 $accept = new Medium(
     'Too Mean to Die',
     'Accept',
@@ -58,22 +51,34 @@ $accept = new Medium(
     MediumType::CD
 );
 
-if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: Accept created <i>(" . basename(__FILE__) . ")</i>:<br>\n";
 if (DEBUG_V) print_r($accept);
 if (DEBUG_V) echo "</pre>";
 
+$accept->setReleaseYear('1999');
 $accept->setMediumType(MediumType::DVD);
 
-if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: Accept changed (year, type)  <i>(" . basename(__FILE__) . ")</i>:<br>\n";
 if (DEBUG_V) print_r($accept);
 if (DEBUG_V) echo "</pre>";
 
+// Partially filled medium afterwards filled
+$maiden = new Medium(
+    null,
+    'Iron Maiden',
+    mediumType: MediumType::DVD
+);
+
+$accept->setTitle('The Number of the Beast');
+$accept->setReleaseYear(1982);
+
 // Add media to array $musicILike
-$musicILike = [$pinkFloyd, $maiden, $manowar, $accept];
+$musicILike = [$pinkFloyd, $maiden, $manowarFilledAfterwards, $accept];
 
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
 if (DEBUG_V) print_r($musicILike);
 if (DEBUG_V) echo "</pre>";
+
 
 // Variables
 
@@ -97,7 +102,7 @@ if (DEBUG_V) echo "</pre>";
 
 <h2 class="my-3 text-secondary">Music I like</h2>
 
-<h3 class="my-2 ">Get formatted html from User class</h3>
+<h3 class="my-2 ">Get formatted html from User class for each medium of list</h3>
 <!-- Get formatted html from User class -->
 <ul class="list-group">
     <?php

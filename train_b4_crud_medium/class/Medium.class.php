@@ -9,10 +9,10 @@ require_once '../utility/TypeCheck.class.php';
 
 class Medium
 {
-    private ?string $title;
-    private ?string $artist;
-    private ?int $releaseYear;
-    private ?MediumType $mediumType;
+    private ?string $title = null;
+    private ?string $artist = null;
+    private ?int $releaseYear = null;
+    private ?MediumType $mediumType = null;
 
     public function __construct(null|string            $title = null,
                                 null|string            $artist = null,
@@ -82,9 +82,7 @@ class Medium
      */
     public function setMediumType(MediumType|string $mediumType): void
     {
-        if ($mediumType instanceof MediumType) {
-            // is MediumType
-        } else {
+        if ($mediumType instanceof MediumType === false) {
             // is string
             $mediumType = sanitizeString($mediumType);
             $mediumType = MediumTypeHelper::toMediumTypeOrNull($mediumType);

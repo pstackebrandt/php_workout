@@ -15,12 +15,14 @@ class Medium
     private ?int $releaseYear = null;
     private ?MediumType $mediumType = null;
     private ?float $price = null;
+    private ?int $id = null;
 
     public function __construct(null|string            $title = null,
                                 null|string            $artist = null,
                                 null|int|string        $releaseYear = null,
                                 null|MediumType|string $mediumType = null,
-                                null|float|string      $price = null)
+                                null|float|string      $price = null,
+                                null|int|string        $id = null)
     {
         // Don't work with null or empty string, because we don't want to save empty values.
         if (TypeCheck::isNotNullOrEmpty($title)) $this->setTitle($title);
@@ -28,6 +30,7 @@ class Medium
         if (TypeCheck::isNotNullOrEmpty($releaseYear)) $this->setReleaseYear($releaseYear);
         if (TypeCheck::isNotNullOrEmpty($mediumType)) $this->setMediumType($mediumType);
         if (TypeCheck::isNotNullOrEmpty($price)) $this->setPrice($price);
+        if (TypeCheck::isNotNullOrEmpty($id)) $this->setID($id);
     }
 
     public function __destruct()
@@ -115,6 +118,22 @@ class Medium
             $this->price = (float)$value;
         } else {
             if (DEBUG) echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: Price value not castable into float. \$value = $value  <i>(" . basename(__FILE__) . ")</i></p>\n";
+        }
+    }
+
+    public function getReleaseYear(): int|null
+    {
+        return $this->releaseYear;
+    }
+
+    public function setReleaseYear(int|string $releaseYear): void
+    {
+        if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
+
+        if (TypeCheck::isIntOrCastable($releaseYear)) {
+            $this->releaseYear = (int)$releaseYear;
+        } else {
+            if (DEBUG) echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: Value not castable into int. \$releaseYear = $releaseYear  <i>(" . basename(__FILE__) . ")</i></p>\n";
         }
     }
 

@@ -121,21 +121,22 @@ class Medium
         }
     }
 
-    public function getReleaseYear(): int|null
+    public function getId(): ?int
     {
-        return $this->releaseYear;
+        return $this->id;
     }
-
-    public function setReleaseYear(int|string $releaseYear): void
+    
+    public function setId(int|string $id): void
     {
         if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
-
-        if (TypeCheck::isIntOrCastable($releaseYear)) {
-            $this->releaseYear = (int)$releaseYear;
+    
+        if (TypeCheck::isIntOrCastable($id)) {
+            $this->id = (int)$id;
         } else {
-            if (DEBUG) echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: Value not castable into int. \$releaseYear = $releaseYear  <i>(" . basename(__FILE__) . ")</i></p>\n";
+            if (DEBUG) echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: Value not castable into int. \$id = $id  <i>(" . basename(__FILE__) . ")</i></p>\n";
         }
     }
+    
 
     public function getAllMediaAsUnorderedListItemHTML(): string
     {
@@ -154,6 +155,9 @@ class Medium
         $formattedMedium .= $this->getPrice() ?? 'unknown price';
         $formattedMedium .= ' - ';
         $formattedMedium .= $this->getMediumType()?->value ?? 'unknown medium type';
+        // Add id at the end of the second line
+        $formattedMedium .= ' - ID: ';
+        $formattedMedium .= $this->getId() ?? 'not set';
         $formattedMedium .= '</li>';
 
         return $formattedMedium;

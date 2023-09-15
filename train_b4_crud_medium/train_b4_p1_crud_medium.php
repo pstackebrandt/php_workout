@@ -13,13 +13,14 @@ require_once('./class/Medium.class.php');
 
 #********** Create single media instances **********#
 
-// Full medium
+// Full medium with id
 $pinkFloyd = new Medium(
     'The Dark Side of the Moon',
     'Pink Floyd',
     1973,
     MediumType::CD,
-    9.99
+    9.99, 
+    1
 );
 
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
@@ -39,6 +40,8 @@ $manowarFilledAfterwards->setArtist('Manowar');
 $manowarFilledAfterwards->setReleaseYear(1988);
 $manowarFilledAfterwards->setMediumType(MediumType::CD);
 $manowarFilledAfterwards->setPrice(9.99);
+$manowarFilledAfterwards->setID(2);
+
 
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$manowarFilledAfterwards <i>(" . basename(__FILE__) . ")</i>:<br>\n";
 if (DEBUG_V) print_r($manowarFilledAfterwards);
@@ -51,7 +54,8 @@ $accept = new Medium(
     'Accept',
     2021,
     MediumType::CD,
-    66 // Add int instead of float
+    66, // Add int instead of float
+    id: 3
 );
 
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: Accept created <i>(" . basename(__FILE__) . ")</i>:<br>\n";

@@ -18,7 +18,8 @@ $pinkFloyd = new Medium(
     'The Dark Side of the Moon',
     'Pink Floyd',
     1973,
-    MediumType::CD
+    MediumType::CD,
+    9.99
 );
 
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
@@ -37,6 +38,7 @@ $manowarFilledAfterwards->setTitle('Kings of Metal');
 $manowarFilledAfterwards->setArtist('Manowar');
 $manowarFilledAfterwards->setReleaseYear(1988);
 $manowarFilledAfterwards->setMediumType(MediumType::CD);
+$manowarFilledAfterwards->setPrice(9.99);
 
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$manowarFilledAfterwards <i>(" . basename(__FILE__) . ")</i>:<br>\n";
 if (DEBUG_V) print_r($manowarFilledAfterwards);
@@ -48,7 +50,8 @@ $accept = new Medium(
     'Too Mean to Die',
     'Accept',
     2021,
-    MediumType::CD
+    MediumType::CD,
+    66 // Add int instead of float
 );
 
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: Accept created <i>(" . basename(__FILE__) . ")</i>:<br>\n";
@@ -69,11 +72,12 @@ $maiden = new Medium(
     mediumType: MediumType::DVD
 );
 
-$accept->setTitle('The Number of the Beast');
-$accept->setReleaseYear(1982);
+$maiden->setTitle('The Number of the Beast');
+$maiden->setReleaseYear(1982);
+$maiden->setPrice(12.99);
 
 // Add media to array $musicILike
-$musicILike = [$pinkFloyd, $maiden, $manowarFilledAfterwards, $accept];
+$musicILike = [$pinkFloyd, $manowarFilledAfterwards, $accept, $maiden, $manowarEmpty ];
 
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
 if (DEBUG_V) print_r($musicILike);
@@ -114,15 +118,6 @@ if (DEBUG_V) echo "</pre>";
     /** @var Medium[] $musicILike */
     foreach ($musicILike as $medium) {
         echo $medium->getAllMediaAsUnorderedListItemHTML();
-    }
-    ?>
-</ul>
-
-<!-- list the content of $musicILike -->
-<ul class="list-group">
-    <?php
-    foreach ($musicILike as $medium) {
-        echo "<li class='list-group-item'>" . $medium->getTitle() . ' - ' . $medium->getArtist() . ' (' . $medium->getReleaseYear() . ')</li>';
     }
     ?>
 </ul>

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace train_b4_crud_medium;
 
 use php_workout\utility\TypeCheck;
+
 require_once '../utility/TypeCheck.class.php';
 
 
@@ -13,16 +14,20 @@ class Medium
     private ?string $artist = null;
     private ?int $releaseYear = null;
     private ?MediumType $mediumType = null;
+    private ?float $price = null;
 
     public function __construct(null|string            $title = null,
                                 null|string            $artist = null,
                                 null|int|string        $releaseYear = null,
-                                null|MediumType|string $mediumType = null)
+                                null|MediumType|string $mediumType = null,
+                                null|float|string      $price = null)
     {
+        // Don't work with null or empty string, because we don't want to save empty values.
         if (TypeCheck::isNotNullOrEmpty($title)) $this->setTitle($title);
         if (TypeCheck::isNotNullOrEmpty($artist)) $this->setArtist($artist);
         if (TypeCheck::isNotNullOrEmpty($releaseYear)) $this->setReleaseYear($releaseYear);
         if (TypeCheck::isNotNullOrEmpty($mediumType)) $this->setMediumType($mediumType);
+        if (TypeCheck::isNotNullOrEmpty($price)) $this->setPrice($price);
     }
 
     public function __destruct()
@@ -34,7 +39,7 @@ class Medium
     #********** GETTER & SETTER **********#
     #*************************************#
 
-    public function getTitle(): string | null
+    public function getTitle(): string|null
     {
         return $this->title;
     }
@@ -45,7 +50,7 @@ class Medium
         $this->title = sanitizeString($value);
     }
 
-    public function getArtist(): string | null
+    public function getArtist(): string|null
     {
         return $this->artist;
     }
@@ -56,7 +61,7 @@ class Medium
         $this->artist = sanitizeString($value);
     }
 
-    public function getReleaseYear(): int | null
+    public function getReleaseYear(): int|null
     {
         return $this->releaseYear;
     }
@@ -72,7 +77,7 @@ class Medium
         }
     }
 
-    public function getMediumType(): MediumType
+    public function getMediumType(): MediumType|null
     {
         return $this->mediumType;
     }
@@ -95,10 +100,41 @@ class Medium
         $this->mediumType = $mediumType;
     }
 
+
+    public function getPrice(): float|null
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float|string $value): void
+    {
+        if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: setPrice($value) " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
+
+        $result = TypeCheck::getFloatOrFalse($value);
+        if ($result !== false) {
+            $this->price = (float)$value;
+        } else {
+            if (DEBUG) echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: Price value not castable into float. \$value = $value  <i>(" . basename(__FILE__) . ")</i></p>\n";
+        }
+    }
+
     public function getAllMediaAsUnorderedListItemHTML(): string
     {
         $formattedMedium = "<li class='list-group-item'>";
-        $formattedMedium .= $this->getTitle() . ' - ' . $this->getArtist() . ' (' . $this->getReleaseYear() . ')';
+
+        // first line: title, artist, release year
+        $formattedMedium .= $this->getTitle() ?? 'unknown title';
+        $formattedMedium .= ' - ';
+        $formattedMedium .= $this->getArtist() ?? 'unknown artist';
+        $formattedMedium .= ' (';
+        $formattedMedium .= $this->getReleaseYear() ?? 'unknown year';
+        $formattedMedium .= ')';
+
+        // Second line: price, medium type
+        $formattedMedium .= '<br>';
+        $formattedMedium .= $this->getPrice() ?? 'unknown price';
+        $formattedMedium .= ' - ';
+        $formattedMedium .= $this->getMediumType()?->value ?? 'unknown medium type';
         $formattedMedium .= '</li>';
 
         return $formattedMedium;

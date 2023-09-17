@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace train_b4_create_media;
+namespace train_b4_insert_media;
 
 use php_workout\utility\TypeCheck;
 

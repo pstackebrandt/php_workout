@@ -1,7 +1,9 @@
 <?php
 
 declare(strict_types=1);
-namespace train_b4_create_media;
+namespace train_b4_insert_media;
+
+use train_b4_insert_media\MediumType;
 
 require_once('./include/config.inc.php');
 require_once('./include/db.inc.php');
@@ -10,11 +12,11 @@ require_once('./include/form.inc.php');
 #********** INCLUDE CLASSES **********#
 require_once('./class/Medium.class.php');
 
-#********************************************#
-#********** PROCESS URL PARAMETERS **********#
-#********************************************#
+#                                   ********************************************#
+#                                   ********** PROCESS URL PARAMETERS **********#
+#                                   ********************************************#
 
-#********** PREVIEW GET ARRAY **********#
+#                                   ********** PREVIEW GET ARRAY **********#
 
 if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$_GET <i>(" . basename(__FILE__) . ")</i>:<br>\n";
 if (DEBUG_V) print_r($_GET);
@@ -35,9 +37,115 @@ if (isset($_GET['action']) === true) {
     if ($action === 'insert') {
         if (DEBUG) echo "<p class='debug'><b>Line " . __LINE__ . "</b>: Process action: $action <i>(" . basename(__FILE__) . ")</i></p>\n";
 
-        // Schritt create media elements
+        # *********************** Create media elements **********************************
         if (DEBUG) echo "<p class='debug'>📑 <b>Line " . __LINE__ . "</b>: Create media elements ... <i>(" . basename(__FILE__) . ")</i></p>\n";
 
+        $pinkFloyd = new Medium(
+            'The Dark Side of the Moon',
+            'Pink Floyd',
+            1973,
+            MediumType::CD,
+            9.99,
+            1
+        );
+
+        if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+        if (DEBUG_V) print_r($pinkFloyd);
+        if (DEBUG_V) echo "</pre>";
+
+// Empty medium filled with setters
+        $manowarEmpty = new Medium();
+
+        if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$manowarEmpty <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+        if (DEBUG_V) print_r($manowarEmpty);
+        if (DEBUG_V) echo "</pre>";
+
+        $manowarFilledAfterwards = new Medium();
+        $manowarFilledAfterwards->setTitle('Kings of Metal');
+        $manowarFilledAfterwards->setArtist('Manowar');
+        $manowarFilledAfterwards->setReleaseYear(1988);
+        $manowarFilledAfterwards->setMediumType(MediumType::CD);
+        $manowarFilledAfterwards->setPrice(9.99);
+        $manowarFilledAfterwards->setID(2);
+
+        if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$manowarFilledAfterwards <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+        if (DEBUG_V) print_r($manowarFilledAfterwards);
+        if (DEBUG_V) echo "</pre>";
+
+        // Change medium after creation
+        $accept = new Medium(
+            'Too Mean to Die',
+            'Accept',
+            2021,
+            MediumType::CD,
+            66, // Add int instead of float
+            id: 3
+        );
+
+        if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: Accept created <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+        if (DEBUG_V) print_r($accept);
+        if (DEBUG_V) echo "</pre>";
+
+        $accept->setReleaseYear('1999');
+        $accept->setMediumType(MediumType::DVD);
+
+        if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: Accept changed (year, type)  <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+        if (DEBUG_V) print_r($accept);
+        if (DEBUG_V) echo "</pre>";
+
+        // Partially filled medium afterwards filled
+        $maiden = new Medium(
+            null,
+            'Iron Maiden',
+            mediumType: MediumType::DVD
+        );
+
+        $maiden->setTitle('The Number of the Beast');
+        $maiden->setReleaseYear(1982);
+        $maiden->setPrice(12.99);
+
+
+        if(DEBUG)	echo "<p class='debug'><b>Line " . __LINE__ . "</b>: Media elements created <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+        // Add media to array $musicILike
+        $musicILike = [$pinkFloyd, $manowarFilledAfterwards, $accept, $maiden, $manowarEmpty];
+        if(DEBUG)	echo "<p class='debug'><b>Line " . __LINE__ . "</b>: Array \$musicILike filled <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+        # ******************************* Save to DB ********************************
+
+        #**********************************#
+        #********** DB OPERATION **********#
+        #**********************************#
+
+        // Schritt 1 DB: DB-Verbindung herstellen
+        /*
+            Das PDO-Objekt sollte immer außerhalb der DB-Methoden
+            erzeugt und dann an diese übergeben werden, da ansonsten
+            keine Methodenübergreifenden Transactions funktionieren
+            würden.
+        */
+        $PDO = dbConnect('mediasammlung_oop');
+
+         /*
+            Schritt 2-4 der DB-Operationen finden in den entsprechenden
+            Objektmethoden statt.
+        */
+        foreach($musicILike as $medium){
+            if( $medium->saveToDB($PDO) === false ) {
+                // Fehlerfall
+                echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: FEHLER beim Speichern des Datensatzes! <i>(" . basename(__FILE__) . ")</i></p>\n";
+                $dbError = 'Beim Speichern des neuen Users ist ein Fehler aufgetreten!';
+    
+            } else {
+                // Erfolgsfall
+                if(DEBUG)		echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Datensatz erfolgreich unter ID{$user->getUserID()} gespeichert. <i>(" . basename(__FILE__) . ")</i></p>\n";
+                $dbSuccess = 'Der neue User wurde erfolgreich gespeichert.';
+            }
+        }
+       
+        // DB-Verbindung schließen
+        if(DEBUG_DB)echo "<p class='debug db'><b>Line " . __LINE__ . "</b>: DB-Verbindung geschlossen. <i>(" . basename(__FILE__) . ")</i></p>\n";
+        unset($PDO);
 
 
 
@@ -45,8 +153,6 @@ if (isset($_GET['action']) === true) {
     } // BRANCHING END
 
 } // PROCESS URL PARAMETERS END
-
-
 
 
 ?>

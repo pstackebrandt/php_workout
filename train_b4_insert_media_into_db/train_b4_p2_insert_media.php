@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-namespace train_b4_crud_medium;
+namespace train_b4_insert_media;
 
 require_once('./include/config.inc.php');
 require_once('./include/db.inc.php');

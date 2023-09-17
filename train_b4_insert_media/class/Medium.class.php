@@ -8,7 +8,7 @@ use php_workout\utility\TypeCheck;
 require_once '../utility/TypeCheck.class.php';
 
 
-class Medium
+class Medium implements MediumInterface
 {
     private ?string $title = null;
     private ?string $artist = null;

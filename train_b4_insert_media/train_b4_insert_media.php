@@ -10,85 +10,44 @@ require_once('./include/form.inc.php');
 #********** INCLUDE CLASSES **********#
 require_once('./class/Medium.class.php');
 
+#********************************************#
+#********** PROCESS URL PARAMETERS **********#
+#********************************************#
 
-#********** Create single media instances **********#
+#********** PREVIEW GET ARRAY **********#
 
-// Full medium with id
-$pinkFloyd = new Medium(
-    'The Dark Side of the Moon',
-    'Pink Floyd',
-    1973,
-    MediumType::CD,
-    9.99, 
-    1
-);
-
-if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-if (DEBUG_V) print_r($pinkFloyd);
+if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$_GET <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+if (DEBUG_V) print_r($_GET);
 if (DEBUG_V) echo "</pre>";
 
-// Empty medium filled with setters
-$manowarEmpty = new Medium();
+// Schritt 1 URL: Prüfen, ob URL-Parameter übergeben wurde
+if (isset($_GET['action']) === true) {
+    if (DEBUG) echo "<p class='debug'>🧻 <b>Line " . __LINE__ . "</b>: URL-Parameter 'action' wurde übergeben. <i>(" . basename(__FILE__) . ")</i></p>\n";
 
-if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$manowarEmpty <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-if (DEBUG_V) print_r($manowarEmpty);
-if (DEBUG_V) echo "</pre>";
+    // Schritt 2 URL: Auslesen, entschärfen und Debug-Ausgabe der übergebenen Parameter-Werte
+    if (DEBUG) echo "<p class='debug'>📑 <b>Line " . __LINE__ . "</b>: Werte werden ausgelesen und entschärft... <i>(" . basename(__FILE__) . ")</i></p>\n";
 
-$manowarFilledAfterwards = new Medium();
-$manowarFilledAfterwards->setTitle('Kings of Metal');
-$manowarFilledAfterwards->setArtist('Manowar');
-$manowarFilledAfterwards->setReleaseYear(1988);
-$manowarFilledAfterwards->setMediumType(MediumType::CD);
-$manowarFilledAfterwards->setPrice(9.99);
-$manowarFilledAfterwards->setID(2);
+    $action = htmlspecialchars($_GET['action'], ENT_QUOTES | ENT_HTML5);
+    if (DEBUG_V) echo "<p class='debug value'><b>Line " . __LINE__ . "</b>: \$action: $action <i>(" . basename(__FILE__) . ")</i></p>\n";
 
 
-if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$manowarFilledAfterwards <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-if (DEBUG_V) print_r($manowarFilledAfterwards);
-if (DEBUG_V) echo "</pre>";
+    // Schritt 3 URL: Je nach Parameterwert verzweigen
+    if ($action === 'insert') {
+        if (DEBUG) echo "<p class='debug'><b>Line " . __LINE__ . "</b>: Process action: $action <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+        // Schritt create media elements
+        if (DEBUG) echo "<p class='debug'>📑 <b>Line " . __LINE__ . "</b>: Create media elements ... <i>(" . basename(__FILE__) . ")</i></p>\n";
 
 
-// Change medium after creation
-$accept = new Medium(
-    'Too Mean to Die',
-    'Accept',
-    2021,
-    MediumType::CD,
-    66, // Add int instead of float
-    id: 3
-);
-
-if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: Accept created <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-if (DEBUG_V) print_r($accept);
-if (DEBUG_V) echo "</pre>";
-
-$accept->setReleaseYear('1999');
-$accept->setMediumType(MediumType::DVD);
-
-if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: Accept changed (year, type)  <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-if (DEBUG_V) print_r($accept);
-if (DEBUG_V) echo "</pre>";
-
-// Partially filled medium afterwards filled
-$maiden = new Medium(
-    null,
-    'Iron Maiden',
-    mediumType: MediumType::DVD
-);
-
-$maiden->setTitle('The Number of the Beast');
-$maiden->setReleaseYear(1982);
-$maiden->setPrice(12.99);
-
-// Add media to array $musicILike
-$musicILike = [$pinkFloyd, $manowarFilledAfterwards, $accept, $maiden, $manowarEmpty ];
-
-if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-if (DEBUG_V) print_r($musicILike);
-if (DEBUG_V) echo "</pre>";
 
 
-// Variables
+
+    } // BRANCHING END
+
+} // PROCESS URL PARAMETERS END
+
+
+
 
 ?>
 
@@ -106,42 +65,13 @@ if (DEBUG_V) echo "</pre>";
 </head>
 
 <body>
-<h1 class="my-5 text-primary">Create works page with form</h1>
+<h1 class="my-5 text-primary">Insert media elements into database</h1>
 
-<h2 class="my-3 text-secondary">Music I like</h2>
 
-<h3 class="my-2 ">Get formatted html from User class for each medium of list</h3>
-<!-- Get formatted html from User class -->
-<ul class="list-group">
-    <?php
-
-    if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-    if (DEBUG_V) print_r($musicILike);
-    if (DEBUG_V) echo "</pre>";
-
-    /** @var Medium[] $musicILike */
-    foreach ($musicILike as $medium) {
-        echo $medium->getAllMediaAsUnorderedListItemHTML();
-    }
-    ?>
-</ul>
-
-<h3>Check getReleaseYear()</h3>
-<?php
-// Full medium
-$pinkFloyd2 = new Medium(
-    'The Dark Side of the Moon',
-    'Pink Floyd',
-    1973,
-    MediumType::CD
-);
-
-if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$arrayName <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-if (DEBUG_V) print_r($pinkFloyd2);
-if (DEBUG_V) echo "</pre>";
-
-echo "getReleaseYear()" . $pinkFloyd2->getReleaseYear() . '<br>';
-?>
+<h2>Add link to call for media creation and db insert</h2>
+<p>
+    <a href="train_b4_insert_media.php?action=insert">Insert 5 media elements with content into db</a>
+</p>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

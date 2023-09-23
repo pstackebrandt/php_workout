@@ -1,6 +1,6 @@
 <?php
 
-namespace train_b4_insert_media;
+namespace train_b4_insert_media\class;
 
 #			    #*************************************#
 #			    #********** INTERFACE Medium ***********#

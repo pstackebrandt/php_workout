@@ -1,15 +1,23 @@
 <?php
 declare(strict_types=1);
 
-namespace train_b4_insert_media;
+namespace train_b4_insert_media\class;
 
 use php_workout\utility\TypeCheck;
 
+// setze Konstante DEBUG_MEDIUM
+define ('DEBUG_MEDIUM', false); // false: Don't show debug messages.
+
+#                   ********* include classes ************
+// include 'MediumInterface.php';
+require_once 'MediumInterface.php';
 require_once '../utility/TypeCheck.class.php';
 
 
 class Medium implements MediumInterface
 {
+// ************* For Debug only *************
+
     private ?string $title = null;
     private ?string $artist = null;
     private ?int $releaseYear = null;
@@ -49,7 +57,7 @@ class Medium implements MediumInterface
 
     public function setTitle(string $value): void
     {
-        if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
+        if (DEBUG_MEDIUM && DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
         $this->title = sanitizeString($value);
     }
 
@@ -60,7 +68,7 @@ class Medium implements MediumInterface
 
     public function setArtist(string $value): void
     {
-        if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
+        if (DEBUG_MEDIUM && DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
         $this->artist = sanitizeString($value);
     }
 
@@ -71,7 +79,7 @@ class Medium implements MediumInterface
 
     public function setReleaseYear(int|string $releaseYear): void
     {
-        if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
+        if (DEBUG_MEDIUM && DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
 
         if (TypeCheck::isIntOrCastable($releaseYear)) {
             $this->releaseYear = (int)$releaseYear;
@@ -111,7 +119,7 @@ class Medium implements MediumInterface
 
     public function setPrice(float|string $value): void
     {
-        if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: setPrice($value) " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
+        if (DEBUG_MEDIUM && DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: setPrice($value) " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
 
         $result = TypeCheck::getFloatOrFalse($value);
         if ($result !== false) {
@@ -128,7 +136,7 @@ class Medium implements MediumInterface
     
     public function setId(int|string $id): void
     {
-        if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
+        if (DEBUG_MEDIUM && DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
     
         if (TypeCheck::isIntOrCastable($id)) {
             $this->id = (int)$id;

@@ -3,13 +3,15 @@ declare(strict_types=1);
 
 namespace php_workout\utility;
 
+define('DEBUG_TYPECHECK', false);
+
 //require_once '../include/config.inc.php';
 // We get this from the using file
 
 /*
- * Class TypeCheck helps to check types.
- * @package php_workout\utility
- */
+* Class TypeCheck helps to check types.
+* @package php_workout\utility
+*/
 
 class TypeCheck
 {
@@ -31,7 +33,7 @@ class TypeCheck
     public static function isIntOrCastable(int|string $value): bool
     {
         if (filter_var($value, FILTER_VALIDATE_INT) !== false) {
-            if (DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Value is castable into int. \$value = $value <i>(" . basename(__FILE__) . ")</i></p>\n";
+            if (DEBUG_TYPECHECK && DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Value is castable into int. \$value = $value <i>(" . basename(__FILE__) . ")</i></p>\n";
             return true;
         } else {
             // Fehler (nicht erlaubter Datentyp)
@@ -47,7 +49,7 @@ class TypeCheck
     public static function isFloatOrCastable(int|string $value): bool
     {
         if (filter_var($value, FILTER_VALIDATE_FLOAT) !== false) {
-            if (DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Value is castable into float. \$value = $value <i>(" . basename(__FILE__) . ")</i></p>\n";
+            if (DEBUG_TYPECHECK && DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Value is castable into float. \$value = $value <i>(" . basename(__FILE__) . ")</i></p>\n";
             return true;
         } else {
             // Fehler (nicht erlaubter Datentyp)
@@ -59,7 +61,7 @@ class TypeCheck
     public static function getIntOrFalse(int|string $value): int|bool
     {
         if (filter_var($value, FILTER_VALIDATE_INT) !== false) {
-            if (DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Value is castable into int. \$value = $value <i>(" . basename(__FILE__) . ")</i></p>\n";
+            if (DEBUG_TYPECHECK && DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Value is castable into int. \$value = $value <i>(" . basename(__FILE__) . ")</i></p>\n";
             return $value;
         } else {
             // Fehler (nicht erlaubter Datentyp)
@@ -71,7 +73,7 @@ class TypeCheck
     public static function getFloatOrFalse(float|int|string $value): float|bool
     {
         if (filter_var($value, FILTER_VALIDATE_FLOAT) !== false) {
-            if (DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Value is castable into float. \$value = $value <i>(" . basename(__FILE__) . ")</i></p>\n";
+            if (DEBUG_TYPECHECK && DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Value is castable into float. \$value = $value <i>(" . basename(__FILE__) . ")</i></p>\n";
             return $value;
         } else {
             // Fehler (nicht erlaubter Datentyp)

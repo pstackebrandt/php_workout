@@ -2,3 +2,6 @@ mein-logfile.log
 log_to_logfile_in_application.php
 logfiles/errorLog.html
 works_prepared_statements/logfiles/errorLog.html
+/vendor/
+/.env
+/node_modules/

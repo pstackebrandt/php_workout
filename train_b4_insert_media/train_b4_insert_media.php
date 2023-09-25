@@ -150,11 +150,9 @@ if (isset($_GET['action']) === true) {
                 if ($mediumToSave->saveToDB($PDO) === false) {
                     // Fehlerfall
                     echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: FEHLER beim Speichern des Datensatzes! <i>(" . basename(__FILE__) . ")</i></p>\n";
-                    $dbError = 'Beim Speichern des neuen Users ist ein Fehler aufgetreten!';
                 } else {
                     // Erfolgsfall
                     if (DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Datensatz erfolgreich unter ID {$mediumToSave->getId()} gespeichert. <i>(" . basename(__FILE__) . ")</i></p>\n";
-                    $dbSuccess = 'Das neue Medium wurde erfolgreich gespeichert.';
                 }
             }
         }

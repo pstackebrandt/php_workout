@@ -184,33 +184,25 @@ class Medium implements MediumInterface, DBOperationsInterface
 
     /**
      * Saves the medium into the database.
+     * If the write process was successful, the new medium id will be written into the medium object.
      * @param PDO $PDO 
-     * @return void 
+     * @return true if the medium was saved successfully, otherwise false. 
      */
-    public function saveToDB(PDO $PDO)
+    public function saveToDB(PDO $PDO): bool
     {
         if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ .  "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
 
         // Schritt 2 DB: SQL-Statement und Placeholder-Array erstellen
-
-        // ?string $title = null;
-        // ?string $artist = null;
-        // ?int $releaseYear = null;
-        // ?MediumType $mediumType = null;
-        // ?float $price = null;
-        // ?int $id = null;
-
         $sql = 'INSERT INTO Medium
-                    -- (mediumTitle , mediumArtist, mediumReleaseYear, mediumMediumType, mediumPrice)
-                    (mediumTitle , mediumArtist, mediumReleaseYear, mediumPrice) # wihout mediumMediumType
+                    (mediumTitle , mediumArtist, mediumReleaseYear, mediumMediumType, mediumPrice)
                     VALUES
-                    (?,?,?,?)'; # wihout mediumMediumType
+                    (?,?,?,?,?)';
 
         $params = array(
             $this->getTitle(),
             $this->getArtist(),
             $this->getReleaseYear(),
-            // $this->getMediumType(),
+            MediumType::getValueOrNull($this->getMediumType()),
             $this->getPrice()
         );
 
@@ -224,6 +216,33 @@ class Medium implements MediumInterface, DBOperationsInterface
         } catch (PDOException $error) {
             if (DEBUG_C) echo "<p class='debug class db err'><b>Line " . __LINE__ . "</b>: FEHLER: " . $error->GetMessage() . "<i>(" . basename(__FILE__) . ")</i></p>\n";
             $dbError = 'Fehler beim Zugriff auf die Datenbank!';
+        }
+
+        // Schritt 4 DB: Datenbankoperation auswerten und DB-Verbindung schließen
+        /*
+            Bei schreibenden Operationen (INSERT/UPDATE/DELETE):
+            Schreiberfolg prüfen anhand der Anzahl der betroffenen Datensätze (number of affected rows).
+            Diese werden über die PDOStatement-Methode rowCount() ausgelesen.
+            Der Rückgabewert von rowCount() ist ein Integer; wurden keine Daten verändert, wird 0 zurückgeliefert.
+        */
+        $rowCount = $PDOStatement->rowCount();
+
+        if ($rowCount === 1) {
+            // 1 changed row means success
+
+            // ID des neuen Datensatzes auslesen und im Objekt speichern
+            $newMediumId = $PDO->lastInsertId();
+            $this->setId($newMediumId);
+
+            // Erfolgsfall
+            if (DEBUG_C) echo "<p class='debug class db ok'><b>Line " . __LINE__ . "</b>: Datensatz erfolgreich unter ID {$this->getId()} gespeichert. <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+            return true;
+        } else {
+            // Fehlerfall
+            if (DEBUG_C) echo "<p class='debug class db err'><b>Line " . __LINE__ . "</b>: FEHLER beim Speichern des Datensatzes! Count of change rows: $rowCount<i>(" . basename(__FILE__) . ")</i></p>\n";
+
+            return false;
         }
     }
 }

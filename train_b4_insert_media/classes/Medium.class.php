@@ -1,22 +1,26 @@
 <?php
+
 declare(strict_types=1);
 
-namespace train_b4_insert_media\class;
+namespace train_b4_insert_media\classes;
 
+use DBOperationsInterface;
+use PDO;
 use php_workout\utility\TypeCheck;
 
-// setze Konstante DEBUG_MEDIUM
-define ('DEBUG_MEDIUM', false); // false: Don't show debug messages.
+define('DEBUG_MEDIUM', false); // false: Don't show debug messages.
 
 #                   ********* include classes ************
-// include 'MediumInterface.php';
+// require_once('../include/config.inc.php');
+require_once __DIR__ . '\..\include\config.inc.php';
+require_once('DBOperationsInterface.php');
 require_once 'MediumInterface.php';
-require_once '../utility/TypeCheck.class.php';
+require_once(PROJECT_ROOT . '/utility/TypeCheck.class.php');
 
 
-class Medium implements MediumInterface
+class Medium implements MediumInterface, DBOperationsInterface
 {
-// ************* For Debug only *************
+    // ************* For Debug only *************
 
     private ?string $title = null;
     private ?string $artist = null;
@@ -25,13 +29,14 @@ class Medium implements MediumInterface
     private ?float $price = null;
     private ?int $id = null;
 
-    public function __construct(null|string            $title = null,
-                                null|string            $artist = null,
-                                null|int|string        $releaseYear = null,
-                                null|MediumType|string $mediumType = null,
-                                null|float|string      $price = null,
-                                null|int|string        $id = null)
-    {
+    public function __construct(
+        null|string            $title = null,
+        null|string            $artist = null,
+        null|int|string        $releaseYear = null,
+        null|MediumType|string $mediumType = null,
+        null|float|string      $price = null,
+        null|int|string        $id = null
+    ) {
         // Don't work with null or empty string, because we don't want to save empty values.
         if (TypeCheck::isNotNullOrEmpty($title)) $this->setTitle($title);
         if (TypeCheck::isNotNullOrEmpty($artist)) $this->setArtist($artist);
@@ -40,6 +45,8 @@ class Medium implements MediumInterface
         if (TypeCheck::isNotNullOrEmpty($price)) $this->setPrice($price);
         if (TypeCheck::isNotNullOrEmpty($id)) $this->setID($id);
     }
+
+
 
     public function __destruct()
     {
@@ -133,18 +140,18 @@ class Medium implements MediumInterface
     {
         return $this->id;
     }
-    
+
     public function setId(int|string $id): void
     {
         if (DEBUG_MEDIUM && DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ . "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
-    
+
         if (TypeCheck::isIntOrCastable($id)) {
             $this->id = (int)$id;
         } else {
             if (DEBUG) echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: Value not castable into int. \$id = $id  <i>(" . basename(__FILE__) . ")</i></p>\n";
         }
     }
-    
+
 
     public function getAllMediaAsUnorderedListItemHTML(): string
     {
@@ -170,6 +177,42 @@ class Medium implements MediumInterface
 
         return $formattedMedium;
     }
+
+
+    public function saveToDB(PDO $PDO)
+    {
+        if (DEBUG_C)    echo "<p class='debug class'>🌀 <b>Line " . __LINE__ .  "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
+
+        // Schritt 2 DB: SQL-Statement und Placeholder-Array erstellen
+
+        // ?string $title = null;
+        // ?string $artist = null;
+        // ?int $releaseYear = null;
+        // ?MediumType $mediumType = null;
+        // ?float $price = null;
+        // ?int $id = null;
+
+        $sql         = 'INSERT INTO Medium
+                        (mediumTitle , mediumArtist, mediumReleaseYear, mediumMediumType, mediumPrice)
+                        VALUES
+                        (?,?,?,?,?)';
+
+        $params     = array(
+            $this->getTitle(),
+            $this->getArtist(),
+            $this->getReleaseYear(),
+            $this->getMediumType(),
+            $this->getPrice()
+        );
+
+
+        // $params 	= array( $this->getUserFirstName(),
+        //                         $this->getUserLastName(),
+        //                         $this->getUserEmail(),
+        //                         $this->getUserBirthdate(),
+        //                         $this->getUserCity() );
+
+    }
 }
 
 enum MediumType: string
@@ -178,6 +221,18 @@ enum MediumType: string
     case BLU_RAY = "Blu-ray";
     case CD = "CD";
     case LP = "LP";
+
+    /** Returns the value of the given MediumType or null if $mediumType is null. 
+     * @param MediumType|null $mediumType will be checked.
+    */ 
+    public static function getValueOrNull(?MediumType $mediumType): ?string
+    {
+        if ($mediumType === null) {
+            return null;
+        }
+
+        return $mediumType->value;
+    }
 }
 
 class MediumTypeHelper

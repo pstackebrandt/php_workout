@@ -5,9 +5,9 @@ declare(strict_types=1);
 
 namespace train_b4_insert_media;
 
-use train_b4_insert_media\class\MediumType;
-use train_b4_insert_media\class\MediumInterface;
-use train_b4_insert_media\class\Medium;
+use train_b4_insert_media\classes\MediumType;
+use train_b4_insert_media\classes\MediumInterface;
+use train_b4_insert_media\classes\Medium;
 
 #********** PAGE CONFIGURATION **********#
 require_once('./include/config.inc.php');
@@ -15,7 +15,7 @@ require_once('./include/db.inc.php');
 require_once('./include/form.inc.php');
 
 #********** INCLUDE CLASSES **********#
-require_once('./class/Medium.class.php');
+require_once('./classes/Medium.class.php');
 
 #                          ********************************************
 #                                          Functions

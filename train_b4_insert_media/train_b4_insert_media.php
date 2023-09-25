@@ -136,26 +136,22 @@ if (isset($_GET['action']) === true) {
             Objektmethoden statt.
         */
 
-        if (true) {
-            // foreach ($musicILike as $mediumToSave) {
-            if (true) {
-                if (DEBUG)    echo "<p class='debug'><b>Line " . __LINE__ . "</b>: Try to save 1 medium  to db. <i>(" . basename(__FILE__) . ")</i></p>\n";
-                $mediumToSave = $musicILike[0];
+        foreach ($musicILike as $mediumToSave) {
+            if (DEBUG)    echo "<p class='debug'><b>Line " . __LINE__ . "</b>: Try to save 1 medium  to db. <i>(" . basename(__FILE__) . ")</i></p>\n";
 
-                if (DEBUG_V)    echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$mediumToSave <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-                if (DEBUG_V)    print_r($mediumToSave);
-                if (DEBUG_V)    echo "</pre>";
+            if (DEBUG_V)    echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$mediumToSave <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+            if (DEBUG_V)    print_r($mediumToSave);
+            if (DEBUG_V)    echo "</pre>";
 
-
-                if ($mediumToSave->saveToDB($PDO) === false) {
-                    // Fehlerfall
-                    echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: FEHLER beim Speichern des Datensatzes! <i>(" . basename(__FILE__) . ")</i></p>\n";
-                } else {
-                    // Erfolgsfall
-                    if (DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Datensatz erfolgreich unter ID {$mediumToSave->getId()} gespeichert. <i>(" . basename(__FILE__) . ")</i></p>\n";
-                }
+            if ($mediumToSave->saveToDB($PDO) === false) {
+                // Fehlerfall
+                echo "<p class='debug err'><b>Line " . __LINE__ . "</b>: FEHLER beim Speichern des Datensatzes! <i>(" . basename(__FILE__) . ")</i></p>\n";
+            } else {
+                // Erfolgsfall
+                if (DEBUG) echo "<p class='debug ok'><b>Line " . __LINE__ . "</b>: Datensatz erfolgreich unter ID {$mediumToSave->getId()} gespeichert. <i>(" . basename(__FILE__) . ")</i></p>\n";
             }
         }
+
         // DB-Verbindung schließen
         if (DEBUG_DB) echo "<p class='debug db'><b>Line " . __LINE__ . "</b>: DB-Verbindung geschlossen. <i>(" . basename(__FILE__) . ")</i></p>\n";
         unset($PDO);

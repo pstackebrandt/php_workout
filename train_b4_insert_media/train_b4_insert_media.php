@@ -112,10 +112,6 @@ if (isset($_GET['action']) === true) {
 
         # ******************************* Save to DB ********************************
 
-        #**********************************#
-        #********** DB OPERATION **********#
-        #**********************************#
-
         $musicILike = create5MediaElements();
         if (DEBUG_V) echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$musicILike <i>(" . basename(__FILE__) . ")</i>:<br>\n";
         if (DEBUG_V) print_r($musicILike);
@@ -155,7 +151,43 @@ if (isset($_GET['action']) === true) {
         // DB-Verbindung schließen
         if (DEBUG_DB) echo "<p class='debug db'><b>Line " . __LINE__ . "</b>: DB-Verbindung geschlossen. <i>(" . basename(__FILE__) . ")</i></p>\n";
         unset($PDO);
-    } // BRANCHING END
+
+        //    ******* End of save to DB *******
+        // ******  End of insert media elements into db *******
+    } elseif ($action === 'insert') {
+
+        //                           ********************************************
+        //                                  Fetch all media elements from db
+        //                           ********************************************
+
+
+        if (DEBUG) echo "<p class='debug'><b>Line " . __LINE__ . "</b>: Process action: $action <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+        if (DEBUG) echo "<p class='debug'>📑 <b>Line " . __LINE__ . "</b>: Fetch all media elements ... <i>(" . basename(__FILE__) . ")</i></p>\n";
+
+
+        // ********* END Fetch all media elements from db **********
+
+        // Schritt 1 DB: DB-Verbindung herstellen
+        $PDO = dbConnect('mediasammlung_oop');
+
+        /*
+            Schritt 2-4 der DB-Operationen finden in den entsprechenden
+            Objektmethoden statt.
+        */
+
+        // Fetch all media elements from db
+
+
+    } // BRANCHING Actions END
+
+
+
+    //                 ********************************************
+    //                        Fetch all media elements from db
+    //                 ********************************************
+
+
 
 } // PROCESS URL PARAMETERS END
 

@@ -6,6 +6,7 @@ namespace train_b4_insert_media\classes;
 
 use DBOperationsInterface;
 use PDO;
+use PDOException;
 use php_workout\utility\TypeCheck;
 
 define('DEBUG_MEDIUM', false); // false: Don't show debug messages.
@@ -179,9 +180,16 @@ class Medium implements MediumInterface, DBOperationsInterface
     }
 
 
+    #***********************    Save into db    **********************#
+
+    /**
+     * Saves the medium into the database.
+     * @param PDO $PDO 
+     * @return void 
+     */
     public function saveToDB(PDO $PDO)
     {
-        if (DEBUG_C)    echo "<p class='debug class'>🌀 <b>Line " . __LINE__ .  "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
+        if (DEBUG_C) echo "<p class='debug class'>🌀 <b>Line " . __LINE__ .  "</b>: Aufruf " . __METHOD__ . "() (<i>" . basename(__FILE__) . "</i>)</p>\n";
 
         // Schritt 2 DB: SQL-Statement und Placeholder-Array erstellen
 
@@ -192,26 +200,31 @@ class Medium implements MediumInterface, DBOperationsInterface
         // ?float $price = null;
         // ?int $id = null;
 
-        $sql         = 'INSERT INTO Medium
-                        (mediumTitle , mediumArtist, mediumReleaseYear, mediumMediumType, mediumPrice)
-                        VALUES
-                        (?,?,?,?,?)';
+        $sql = 'INSERT INTO Medium
+                    -- (mediumTitle , mediumArtist, mediumReleaseYear, mediumMediumType, mediumPrice)
+                    (mediumTitle , mediumArtist, mediumReleaseYear, mediumPrice) # wihout mediumMediumType
+                    VALUES
+                    (?,?,?,?)'; # wihout mediumMediumType
 
-        $params     = array(
+        $params = array(
             $this->getTitle(),
             $this->getArtist(),
             $this->getReleaseYear(),
-            $this->getMediumType(),
+            // $this->getMediumType(),
             $this->getPrice()
         );
 
+        // Schritt 3 DB: Prepared Statements:
+        try {
+            // Prepare: SQL-Statement vorbereiten
+            $PDOStatement = $PDO->prepare($sql);
 
-        // $params 	= array( $this->getUserFirstName(),
-        //                         $this->getUserLastName(),
-        //                         $this->getUserEmail(),
-        //                         $this->getUserBirthdate(),
-        //                         $this->getUserCity() );
-
+            // Execute: SQL-Statement ausführen und ggf. Platzhalter füllen
+            $PDOStatement->execute($params);
+        } catch (PDOException $error) {
+            if (DEBUG_C) echo "<p class='debug class db err'><b>Line " . __LINE__ . "</b>: FEHLER: " . $error->GetMessage() . "<i>(" . basename(__FILE__) . ")</i></p>\n";
+            $dbError = 'Fehler beim Zugriff auf die Datenbank!';
+        }
     }
 }
 
@@ -224,7 +237,7 @@ enum MediumType: string
 
     /** Returns the value of the given MediumType or null if $mediumType is null. 
      * @param MediumType|null $mediumType will be checked.
-    */ 
+     */
     public static function getValueOrNull(?MediumType $mediumType): ?string
     {
         if ($mediumType === null) {

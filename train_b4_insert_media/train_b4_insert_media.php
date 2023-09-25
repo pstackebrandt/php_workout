@@ -183,6 +183,9 @@ if (isset($_GET['action']) === true) {
         <a href="train_b4_insert_media.php?action=insert">Insert 5 media elements with content into db</a>
     </p>
 
+    <p>
+        <a href="train_b4_insert_media.php?action=fetchAllMediaFromDb">Show all media in table</a>
+    </p>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 

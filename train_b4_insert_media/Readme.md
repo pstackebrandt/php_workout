@@ -1,5 +1,11 @@
 # Project information
 
+## Description of changes
+
+- Insert medium element
+- Show medium element
+- Add unit tests
+
 ## Unittests
 
 ### Run unittests

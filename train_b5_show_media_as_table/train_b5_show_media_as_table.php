@@ -239,20 +239,31 @@ if (isset($_GET['action']) === true) {
     [price:train_b5_show_media\classes\Medium:private] => 
     [id:train_b5_show_media\classes\Medium:private]  -->
 
-    <?php foreach( $allMediaObjectsArray AS $mediaObject ): ?>
-			<article>
-				<p>
-					<?= $mediaObject->getTitle() ?? 'unknown title'?> 
-                    <?= $mediaObject->getArtist() ?? 'unknown artist' ?>
-                    <?= $mediaObject->getReleaseYear() ?? 'unknown year' ?>
-                    <?= $mediaObject->getPrice() ?? 'unknown price' ?>
-                    <?= $mediaObject->getMediumType()?->value ?? 'unknown medium type' ?>
-                    <?= $mediaObject->getId() ?? 'not set' ?>
-                    
-				</p>
-			</article>
-			<hr>
-		<?php endforeach ?>
+    <table border="1">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Artist</th>
+            <th>Release Year</th>
+            <th>Price</th>
+            <th>Medium Type</th>
+            <th>ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($allMediaObjectsArray as $mediaObject): ?>
+        <tr>
+            <td><?= $mediaObject->getTitle() ?? 'unknown title' ?></td>
+            <td><?= $mediaObject->getArtist() ?? 'unknown artist' ?></td>
+            <td><?= $mediaObject->getReleaseYear() ?? 'unknown year' ?></td>
+            <td><?= $mediaObject->getPrice() ?? 'unknown price' ?></td>
+            <td><?= $mediaObject->getMediumType()?->value ?? 'unknown medium type' ?></td>
+            <td><?= $mediaObject->getId() ?? 'not set' ?></td>
+        </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
 </body>
 
 </html>

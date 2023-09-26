@@ -17,10 +17,10 @@
 				*
 				*	@param [String $dbname=DB_NAME]		Name der zu verbindenden Datenbank
 				*
-				*	@return Object								DB-Verbindungsobjekt
+				*	@return PDO								DB-Verbindungsobjekt
 				*
 				*/
-				function dbConnect($DBName=DB_NAME) {
+				function dbConnect(string $DBName=DB_NAME) : PDO {
 				
 if(DEBUG_DB)	echo "<p class='debug db'><b>Line " . __LINE__ .  "</b> | " . __METHOD__ . "(): Versuche mit der DB '<b>$DBName</b>' zu verbinden... <i>(" . basename(__FILE__) . ")</i></p>\r\n";					
 

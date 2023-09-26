@@ -171,11 +171,11 @@ if (isset($_GET['action']) === true) {
         // Schritt 1 DB: DB-Verbindung herstellen
         $PDO = dbConnect('mediasammlung_oop');
 
-        $resultArray = Medium::fetchAllMediaFromDb($PDO);
+        $allMediaObjectsArray = Medium::fetchAllMediaFromDb($PDO);
 
 
-        if (DEBUG_V)    echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$resultArray from fetch all media <i>(" . basename(__FILE__) . ")</i>:<br>\n";
-        if (DEBUG_V)    print_r($resultArray);
+        if (DEBUG_V)    echo "<pre class='debug value'><b>Line " . __LINE__ . "</b>: \$allMediaObjectsArray from fetch all media <i>(" . basename(__FILE__) . ")</i>:<br>\n";
+        if (DEBUG_V)    print_r($allMediaObjectsArray);
         if (DEBUG_V)    echo "</pre>";
 
         /*
@@ -231,6 +231,28 @@ if (isset($_GET['action']) === true) {
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
+
+    <!-- [title:train_b5_show_media\classes\Medium:private] => 
+    [artist:train_b5_show_media\classes\Medium:private] => 
+    [releaseYear:train_b5_show_media\classes\Medium:private] => 
+    [mediumType:train_b5_show_media\classes\Medium:private] => 
+    [price:train_b5_show_media\classes\Medium:private] => 
+    [id:train_b5_show_media\classes\Medium:private]  -->
+
+    <?php foreach( $allMediaObjectsArray AS $mediaObject ): ?>
+			<article>
+				<p>
+					<?= $mediaObject->getTitle() ?? 'unknown title'?> 
+                    <?= $mediaObject->getArtist() ?? 'unknown artist' ?>
+                    <?= $mediaObject->getReleaseYear() ?? 'unknown year' ?>
+                    <?= $mediaObject->getPrice() ?? 'unknown price' ?>
+                    <?= $mediaObject->getMediumType()?->value ?? 'unknown medium type' ?>
+                    <?= $mediaObject->getId() ?? 'not set' ?>
+                    
+				</p>
+			</article>
+			<hr>
+		<?php endforeach ?>
 </body>
 
 </html>

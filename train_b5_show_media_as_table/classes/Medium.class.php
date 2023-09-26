@@ -252,7 +252,7 @@ class Medium implements MediumInterface, DBOperationsInterface
 
     #***********************    Fetch from db    **********************#
     /**
-     * Fetches all Media from the database.
+     * Fetches all Media from the database. Returns them as Media objects in an array. Returns an empty array if no medium was found.
      * @param PDO $PDO 
      * @return array with Medium objects.
      */

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace train_b4_insert_media\classes;
+namespace train_b5_show_media\classes;
 
 use PHPUnit\Framework\TestCase;
-use train_b4_insert_media\classes\MediumType;
-use train_b4_insert_media\classes\Medium;
-use train_b4_insert_media\classes\MediumInterface;
+use train_b5_show_media\classes\MediumType;
+use train_b5_show_media\classes\Medium;
+use train_b5_show_media\classes\MediumInterface;
 
 require_once __DIR__ . '\..\include\config.inc.php';
 require_once 'MediumInterface.php';
@@ -16,7 +16,7 @@ require_once 'Medium.class.php';
 #echo 'PROJECT_ROOT = ' . PROJECT_ROOT;
 
 // call this file with:
-// vendor/bin/phpunit train_b4_insert_media/classes/MediumTypeTest.class.test.php
+// vendor/bin/phpunit train_b5_show_media/classes/MediumTypeTest.class.test.php
 
 class MediumTypeTest extends TestCase
 {

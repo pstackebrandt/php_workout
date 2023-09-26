@@ -3,11 +3,11 @@
 declare(strict_types=1);
 
 
-namespace train_b4_insert_media;
+namespace train_b5_show_media;
 
-use train_b4_insert_media\classes\MediumType;
-use train_b4_insert_media\classes\MediumInterface;
-use train_b4_insert_media\classes\Medium;
+use train_b5_show_media\classes\MediumType;
+use train_b5_show_media\classes\MediumInterface;
+use train_b5_show_media\classes\Medium;
 
 #********** PAGE CONFIGURATION **********#
 require_once('./include/config.inc.php');
@@ -217,16 +217,16 @@ if (isset($_GET['action']) === true) {
 </head>
 
 <body>
-    <h1 class="my-5 text-primary">Insert media elements into database</h1>
+    <h1 class="my-5 text-primary">Show media elements on screen in table</h1>
 
 
     <h2>Add link to call for media creation and db insert</h2>
     <p>
-        <a href="train_b4_insert_media.php?action=insert">Insert 5 media elements with content into db</a>
+        <a href="train_b5_show_media_as_table.php?action=insert">Insert 5 media elements with content into db</a>
     </p>
 
     <p>
-        <a href="train_b4_insert_media.php?action=fetchAllMediaFromDb">Show all media in table</a>
+        <a href="train_b5_show_media_as_table.php?action=fetchAllMediaFromDb">Show all media in table</a>
     </p>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
